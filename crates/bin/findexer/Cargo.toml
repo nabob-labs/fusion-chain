@@ -1,0 +1,55 @@
+[package]
+name = "findexer"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+
+[package.metadata.dist]
+dist = true
+
+[features]
+default = []
+network-integration = []
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = {workspace = true}
+clap = {workspace = true}
+chrono = {workspace = true, features = ["serde"] }
+cometindex = {workspace = true}
+ethnum = {workspace = true}
+num-bigint = { version = "0.4" }
+fusion-shielded-pool = {workspace = true, default-features = false}
+fusion-stake = {workspace = true, default-features = false}
+fusion-app = {workspace = true, default-features = false}
+fusion-auction = {workspace = true, default-features = false}
+fusion-dex = {workspace = true, default-features = false}
+fusion-fee = {workspace = true, default-features = false}
+fusion-funding = {workspace = true, default-features = false}
+fusion-keys = {workspace = true, default-features = false}
+fusion-governance = {workspace = true, default-features = false}
+fusion-num = {workspace = true, default-features = false}
+fusion-asset = {workspace = true, default-features = false}
+fusion-proto = {workspace = true, default-features = false}
+fusion-sct = {workspace = true, default-features = false}
+fusion-transaction = {workspace = true, default-features = false}
+prost = {workspace = true}
+tracing = {workspace = true}
+tokio = {workspace = true, features = ["full"]}
+serde_json = {workspace = true}
+serde = { workspace = true, features = ["derive"] }
+sqlx = { workspace = true, features = ["chrono", "postgres"] }
+
+[dev-dependencies]
+url = {workspace = true}
+assert_cmd = { workspace = true }
+predicates = "2.1"
+prost-reflect = "0.14.3"
+# TODO: move reqwest to workspace dependency
+reqwest= { version = "0.12.9", features = ["json", "stream"] }
+http = { workspace = true }
+rstest = { workspace = true }

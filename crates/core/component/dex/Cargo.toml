@@ -1,0 +1,92 @@
+[package]
+name = "fusion-dex"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+
+[features]
+component = [
+    "cnidarium-component",
+    "cnidarium",
+    "metrics-exporter-prometheus",
+    "fusion-proto/cnidarium",
+    "fusion-shielded-pool/component",
+    "fusion-fee/component",
+    "tokio",
+    "tonic",
+]
+default = ["component"]
+docsrs = []
+# proving-keys = ["fusion-proof-params/proving-keys"]
+parallel = [
+    "fusion-tct/parallel",
+    "ark-ff/parallel",
+    "poseidon377/parallel",
+    "decaf377-rdsa/parallel",
+    "ark-groth16/parallel",
+    "ark-r1cs-std/parallel",
+    "decaf377/parallel",
+]
+
+[dependencies]
+anyhow = {workspace = true}
+ark-ff = {workspace = true, default-features = false}
+ark-groth16 = {workspace = true, default-features = false}
+ark-r1cs-std = {workspace = true, default-features = false}
+ark-relations = {workspace = true}
+ark-serialize = {workspace = true}
+ark-snark = {workspace = true}
+async-stream = {workspace = true}
+async-trait = {workspace = true}
+base64 = {workspace = true}
+bincode = {workspace = true}
+blake2b_simd = {workspace = true}
+cnidarium = {workspace = true, optional = true, default-features = true}
+cnidarium-component = {workspace = true, optional = true, default-features = true}
+decaf377 = {workspace = true, features = ["r1cs"], default-features = true}
+decaf377-fmd = {workspace = true}
+decaf377-ka = {workspace = true}
+decaf377-rdsa = {workspace = true}
+futures = {workspace = true}
+hex = {workspace = true}
+im = {workspace = true}
+metrics = {workspace = true}
+metrics-exporter-prometheus = {workspace = true, optional = true}
+once_cell = {workspace = true}
+parking_lot = {workspace = true}
+pbjson-types = {workspace = true}
+fusion-asset = {workspace = true, default-features = false}
+fusion-fee = {workspace = true, default-features = false}
+fusion-keys = {workspace = true, default-features = false}
+fusion-num = {workspace = true, default-features = false}
+fusion-proof-params = {workspace = true, default-features = true}
+fusion-proto = {workspace = true, default-features = false}
+fusion-sct = {workspace = true, default-features = false}
+fusion-shielded-pool = {workspace = true, default-features = false}
+fusion-tct = {workspace = true, default-features = false}
+fusion-txhash = {workspace = true, default-features = false}
+poseidon377 = {workspace = true, features = ["r1cs"]}
+prost = {workspace = true}
+rand_core = {workspace = true}
+regex = {workspace = true}
+serde = {workspace = true, features = ["derive"]}
+serde_json = {workspace = true}
+sha2 = {workspace = true}
+tap = {workspace = true}
+tendermint = {workspace = true}
+tendermint-light-client-verifier = {workspace = true}
+thiserror = {workspace = true}
+tokio = {workspace = true, features = ["full"], optional = true}
+tokio-stream = {workspace = true}
+tonic = {workspace = true, optional = true}
+tracing = {workspace = true}
+
+[dev-dependencies]
+proptest = {workspace = true}
+rand = {workspace = true}
+tracing-subscriber = {workspace = true}
+rand_chacha = {workspace = true}
+itertools = "0.11"

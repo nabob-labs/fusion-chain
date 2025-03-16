@@ -1,0 +1,55 @@
+[package]
+name = "fusion-compact-block"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+
+[features]
+component = [
+    "cnidarium-component",
+    "cnidarium",
+    "fusion-proto/cnidarium",
+    "tonic",
+    "tokio-stream",
+    "tokio",
+    "fusion-governance/component",
+    "fusion-dex/component",
+]
+# proving-keys = ["fusion-proof-params/proving-keys"]
+default = ["std", "component"]
+std = ["ark-ff/std"]
+docsrs = []
+
+[dependencies]
+anyhow = {workspace = true}
+ark-ff = {workspace = true, default-features = false}
+async-trait = {workspace = true}
+blake2b_simd = {workspace = true}
+bytes = {workspace = true}
+cnidarium = {workspace = true, optional = true, default-features = true}
+cnidarium-component = {workspace = true, optional = true, default-features = true}
+decaf377-rdsa = {workspace = true}
+futures = {workspace = true}
+im = {workspace = true}
+metrics = {workspace = true}
+fusion-dex = {workspace = true, default-features = false}
+fusion-fee = {workspace = true, default-features = false}
+fusion-governance = {workspace = true, default-features = false}
+fusion-ibc = {workspace = true, default-features = false}
+fusion-proof-params = {workspace = true, default-features = false}
+fusion-proto = {workspace = true, default-features = false}
+fusion-sct = {workspace = true, default-features = false}
+fusion-shielded-pool = {workspace = true, default-features = false}
+fusion-stake = {workspace = true, default-features = false}
+fusion-tct = {workspace = true, default-features = true}
+rand = {workspace = true}
+rand_core = {workspace = true, features = ["getrandom"]}
+serde = {workspace = true, features = ["derive"]}
+tendermint = {workspace = true}
+tokio = {workspace = true, optional = true}
+tokio-stream = {workspace = true, optional = true}
+tonic = {workspace = true, optional = true}
+tracing = {workspace = true}

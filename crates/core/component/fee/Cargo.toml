@@ -1,0 +1,45 @@
+[package]
+name = "fusion-fee"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+
+[features]
+component = [
+    "cnidarium-component",
+    "cnidarium",
+    "fusion-proto/cnidarium",
+    "tonic",
+    "fusion-proto/rpc"
+]
+default = ["std", "component"]
+std = ["ark-ff/std"]
+docsrs = []
+
+[dependencies]
+anyhow = {workspace = true}
+ark-ff = {workspace = true, default-features = false}
+async-trait = {workspace = true}
+blake2b_simd = {workspace = true}
+bytes = {workspace = true}
+cnidarium = {workspace = true, optional = true, default-features = true}
+cnidarium-component = {workspace = true, optional = true, default-features = true}
+decaf377 = {workspace = true, default-features = true}
+decaf377-rdsa = {workspace = true}
+im = {workspace = true}
+metrics = {workspace = true}
+fusion-asset = {workspace = true, default-features = false}
+fusion-num = {workspace = true, default-features = false}
+fusion-proto = {workspace = true, default-features = false}
+rand = {workspace = true}
+rand_core = {workspace = true, features = ["getrandom"]}
+serde = {workspace = true, features = ["derive"]}
+tendermint = {workspace = true}
+tonic = {workspace = true, optional = true}
+tracing = {workspace = true}
+
+[dev-dependencies]
+getrandom = {workspace = true}

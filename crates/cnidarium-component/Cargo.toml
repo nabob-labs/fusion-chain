@@ -1,0 +1,15 @@
+[package]
+name = "cnidarium-component"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow = {workspace = true}
+async-trait = {workspace = true}
+cnidarium = {workspace = true, default-features = false}
+hex = {workspace = true}
+tendermint = {workspace = true}

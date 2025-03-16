@@ -1,0 +1,52 @@
+[package]
+name = "fmonitor"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+
+[package.metadata.dist]
+dist = true
+
+[features]
+network-integration = []
+integration-testnet = []
+
+[dependencies]
+anyhow = {workspace = true}
+camino = {workspace = true}
+clap = {workspace = true, features = ["derive", "env"]}
+colored = "2.1.0"
+directories = {workspace = true}
+futures = {workspace = true}
+indicatif = {workspace = true}
+fcli = {version = "1.2.0", path = "../fcli", default-features = true}
+fusion-app = {workspace = true}
+fusion-asset = {workspace = true, default-features = false}
+fusion-compact-block = {workspace = true, default-features = false}
+fusion-keys = {workspace = true, default-features = false}
+fusion-num = {workspace = true, default-features = false}
+fusion-proto = {workspace = true}
+fusion-shielded-pool = {workspace = true, default-features = false}
+fusion-stake = {workspace = true, default-features = false}
+fusion-tct = {workspace = true, default-features = false}
+fusion-view = {workspace = true}
+regex = {workspace = true}
+rustls = {workspace = true}
+serde = {workspace = true, features = ["derive"]}
+serde_json = {workspace = true}
+tokio = {workspace = true, features = ["full"]}
+toml = {workspace = true}
+tonic = {workspace = true, features = ["tls-webpki-roots", "tls"]}
+tracing = {workspace = true}
+tracing-subscriber = { workspace = true, features = ["env-filter", "ansi"] }
+url = {workspace = true, features = ["serde"]}
+uuid = { version = "1.3", features = ["v4", "serde"] }
+
+[dev-dependencies]
+assert_cmd = {workspace = true}
+once_cell = {workspace = true}
+process-compose-openapi-client = "1.40.1"
+tempfile = {workspace = true}

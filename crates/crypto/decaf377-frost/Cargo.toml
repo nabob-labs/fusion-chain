@@ -1,0 +1,19 @@
+[package]
+name = "decaf377-frost"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow = {workspace = true}
+ark-ff = {workspace = true, default-features = false}
+blake2b_simd = {workspace = true}
+decaf377 = {workspace = true}
+decaf377-rdsa = {workspace = true}
+frost-core = "0.7"
+frost-rerandomized = "0.7"
+rand_core = {workspace = true, features = ["getrandom"]}
+fusion-proto = {workspace = true, default-features = true}

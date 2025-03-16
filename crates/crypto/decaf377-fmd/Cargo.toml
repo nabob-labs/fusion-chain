@@ -1,0 +1,25 @@
+[package]
+name = "decaf377-fmd"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+
+[features]
+default = ["std"]
+std = ["ark-ff/std"]
+
+[dependencies]
+ark-ff = {workspace = true, default-features = false}
+ark-serialize = {workspace = true}
+bitvec = {workspace = true}
+blake2b_simd = {workspace = true}
+decaf377 = {workspace = true}
+rand_core = {workspace = true, features = ["getrandom"]}
+thiserror = {workspace = true}
+
+[dev-dependencies]
+criterion = {workspace = true, features = ["html_reports"]}
+proptest = {workspace = true}

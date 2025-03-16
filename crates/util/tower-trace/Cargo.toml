@@ -1,0 +1,25 @@
+[package]
+name = "fusion-tower-trace"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+
+[dependencies]
+futures = {workspace = true}
+hex = {workspace = true}
+http = {workspace = true}
+pin-project = {workspace = true}
+pin-project-lite = {workspace = true}
+sha2 = {workspace = true}
+tendermint = {workspace = true}
+tendermint-proto = {workspace = true}
+tokio = {workspace = true, features = ["full"]}
+tokio-stream = {workspace = true}
+tokio-util = {workspace = true}
+tonic = {workspace = true}
+tower = {workspace = true, features = ["full"]}
+tower-service = {workspace = true}
+tracing = {workspace = true}

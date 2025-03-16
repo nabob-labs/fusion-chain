@@ -1,0 +1,47 @@
+[package]
+name = "fusion-tct"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+
+[features]
+internal = []
+arbitrary = ["proptest", "proptest-derive"]
+r1cs = ["ark-r1cs-std", "ark-relations", "decaf377/r1cs", "poseidon377/r1cs"]
+parallel = ["ark-r1cs-std/parallel", "ark-ff/parallel", "decaf377/parallel", "poseidon377/parallel"]
+
+[dependencies]
+ark-ed-on-bls12-377 = "0.4"
+ark-ff = {workspace = true, default-features = false}
+ark-r1cs-std = {workspace = true, optional = true, default-features = false}
+ark-relations = {workspace = true, optional = true}
+ark-serialize = {workspace = true}
+async-trait = {workspace = true}
+blake2b_simd = {workspace = true}
+decaf377 = {workspace = true, default-features = true}
+derivative = {workspace = true}
+futures = {workspace = true}
+getrandom = {workspace = true, features = ["js"]}
+hash_hasher = "2"
+hex = {workspace = true}
+im = {workspace = true, features = ["serde"]}
+once_cell = {workspace = true}
+parking_lot = {workspace = true}
+fusion-proto = {workspace = true, default-features = true}
+poseidon377 = {workspace = true, features = ["r1cs"]}
+proptest = {workspace = true, optional = true}
+proptest-derive = {workspace = true, optional = true}
+rand = {workspace = true}
+serde = {workspace = true, features = ["derive", "rc"]}
+thiserror = {workspace = true}
+tracing = {workspace = true}
+
+[dev-dependencies]
+static_assertions = "1"
+proptest = {workspace = true}
+proptest-derive = {workspace = true}
+serde_json = {workspace = true}
+getrandom = {workspace = true}

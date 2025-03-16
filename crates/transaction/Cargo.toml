@@ -1,0 +1,76 @@
+[package]
+name = "fusion-transaction"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+
+[features]
+default = ["std", "parallel"]
+std = ["ark-ff/std", "ibc-types/std"]
+parallel = [
+    "tokio",
+    "fusion-shielded-pool/parallel",
+    "fusion-auction/parallel",
+    "fusion-dex/parallel",
+    "fusion-governance/parallel",
+    "fusion-stake/parallel",
+]
+download-proving-keys = ["fusion-proof-params/download-proving-keys"]
+
+[dependencies]
+anyhow = {workspace = true}
+ark-ff = {workspace = true, default-features = false}
+ark-serialize = {workspace = true}
+base64 = {workspace = true}
+bech32 = {workspace = true}
+blake2b_simd = {workspace = true}
+bytes = {workspace = true}
+chacha20poly1305 = {workspace = true}
+decaf377 = {workspace = true}
+decaf377-fmd = {workspace = true}
+decaf377-ka = {workspace = true}
+decaf377-rdsa = {workspace = true}
+derivative = {workspace = true}
+hex = {workspace = true}
+ibc-proto = {workspace = true, default-features = false}
+ibc-types = {workspace = true, default-features = false}
+num-bigint = {workspace = true}
+once_cell = {workspace = true}
+pbjson-types = {workspace = true}
+fusion-asset = {workspace = true, default-features = false}
+fusion-community-pool = {workspace = true, default-features = false}
+fusion-auction = {workspace = true, default-features = false}
+fusion-dex = {workspace = true, default-features = false}
+fusion-fee = {workspace = true, default-features = false}
+fusion-governance = {workspace = true, default-features = false}
+fusion-ibc = {workspace = true, default-features = false}
+fusion-keys = {workspace = true, default-features = false}
+fusion-num = {workspace = true, default-features = false}
+fusion-proof-params = {workspace = true, default-features = true}
+fusion-proto = {workspace = true, default-features = true}
+fusion-sct = {workspace = true, default-features = false}
+fusion-shielded-pool = {workspace = true, default-features = false}
+fusion-stake = {workspace = true, default-features = false}
+fusion-tct = {workspace = true, default-features = true }
+fusion-txhash = {workspace = true, default-features = false}
+poseidon377 = {workspace = true, features = ["r1cs"]}
+rand = {workspace = true}
+rand_core = {workspace = true, features = ["getrandom"]}
+regex = {workspace = true}
+serde = {workspace = true, features = ["derive"]}
+serde_json = {workspace = true}
+sha2 = {workspace = true}
+thiserror = {workspace = true}
+tokio = {workspace = true, features = ["full"], optional = true}
+tracing = {workspace = true}
+
+[dev-dependencies]
+proptest = {workspace = true}
+proptest-derive = {workspace = true}
+serde_json = {workspace = true}
+tendermint = {workspace = true}
+ed25519-consensus = {workspace = true}
+fusion-tct = {workspace = true, default-features = true, features = ["arbitrary"] }

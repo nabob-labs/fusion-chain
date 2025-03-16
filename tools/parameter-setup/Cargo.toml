@@ -1,0 +1,21 @@
+[package]
+name = "fusion-parameter-setup"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+
+[dependencies]
+ark-groth16 = { workspace = true }
+ark-serialize = { workspace = true }
+decaf377 = { workspace = true, features = ["r1cs"] }
+fusion-community-pool = { workspace = true , features = ["component"] }
+fusion-dex = { workspace = true }
+fusion-governance = { workspace = true }
+fusion-proof-params = { workspace = true }
+fusion-proof-setup = { workspace = true, features = ["parallel"] }
+fusion-shielded-pool = { workspace = true, features = ["parallel"] }
+fusion-stake = { workspace = true, features = ["component"] }
+rand_core = { workspace = true }

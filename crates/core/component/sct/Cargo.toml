@@ -1,0 +1,54 @@
+[package]
+name = "fusion-sct"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+
+[features]
+component = [
+    "cnidarium",
+    "cnidarium-component",
+    "fusion-proto/cnidarium",
+    "fusion-proto/rpc",
+    "tonic",
+]
+default = ["std", "component"]
+std = ["ark-ff/std"]
+docsrs = []
+
+[dependencies]
+anyhow = {workspace = true}
+ark-ff = {workspace = true, default-features = false}
+ark-r1cs-std = {workspace = true, default-features = false}
+ark-relations = {workspace = true}
+ark-serialize = {workspace = true}
+async-trait = {workspace = true}
+bincode = {workspace = true}
+blake2b_simd = {workspace = true}
+bytes = {workspace = true}
+cnidarium = {workspace = true, optional = true, default-features = true}
+cnidarium-component = {workspace = true, optional = true, default-features = true}
+decaf377 = {workspace = true, features = ["r1cs"], default-features = true}
+decaf377-rdsa = {workspace = true}
+hex = {workspace = true}
+im = {workspace = true}
+metrics = {workspace = true}
+once_cell = {workspace = true}
+pbjson-types = {workspace = true}
+fusion-keys = {workspace = true, default-features = false}
+fusion-proto = {workspace = true, default-features = false}
+fusion-tct = {workspace = true, default-features = true}
+poseidon377 = {workspace = true, features = ["r1cs"]}
+rand = {workspace = true}
+rand_core = {workspace = true, features = ["getrandom"]}
+serde = {workspace = true, features = ["derive"]}
+tendermint = {workspace = true}
+tonic = {workspace = true, optional = true}
+tracing = {workspace = true}
+chrono = { workspace = true, default-features = false, features = ["serde", "now"] }
+
+[dev-dependencies]
+getrandom = {workspace = true}

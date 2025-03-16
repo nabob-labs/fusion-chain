@@ -1,0 +1,34 @@
+[package]
+name = "fusion-distributions"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+
+[features]
+component = [
+    "cnidarium-component",
+    "cnidarium",
+    "fusion-proto/cnidarium",
+    "fusion-sct/component",
+]
+default = ["component"]
+docsrs = []
+
+[dependencies]
+anyhow = {workspace = true}
+async-trait = {workspace = true}
+cnidarium = {workspace = true, optional = true, default-features = true}
+cnidarium-component = {workspace = true, optional = true, default-features = true}
+fusion-asset = {workspace = true, default-features = false}
+fusion-num = {workspace = true, default-features = false}
+fusion-proto = {workspace = true, default-features = false}
+fusion-sct = {workspace = true, default-features = false}
+serde = {workspace = true, features = ["derive"]}
+tendermint = {workspace = true}
+tracing = {workspace = true}
+
+[dev-dependencies]
+getrandom = {workspace = true}

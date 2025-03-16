@@ -1,0 +1,48 @@
+[package]
+name = "fusion-wallet"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+
+[features]
+default = []
+parallel = ["fusion-transaction/parallel"]
+
+[dependencies]
+anyhow = {workspace = true}
+ark-std = {workspace = true, default-features = false}
+bincode = {workspace = true}
+bytes = {workspace = true}
+decaf377 = {workspace = true, default-features = true}
+hex = {workspace = true}
+fusion-app = {workspace = true, default-features = false}
+fusion-asset = {workspace = true, default-features = true}
+fusion-custody = {workspace = true}
+fusion-dex = {workspace = true, default-features = false}
+fusion-fee = {workspace = true, default-features = false}
+fusion-governance = {workspace = true, default-features = false}
+fusion-keys = {workspace = true, default-features = true}
+fusion-num = {workspace = true, default-features = true}
+fusion-proto = {workspace = true, default-features = true}
+fusion-stake = {workspace = true, default-features = false}
+fusion-tct = {workspace = true, default-features = true}
+fusion-sct = {workspace = true, default-features = false}
+fusion-transaction = {workspace = true, default-features = true}
+fusion-view = {workspace = true}
+pin-project = {workspace = true}
+rand = {workspace = true}
+rand_core = {workspace = true, features = ["getrandom"]}
+serde = {workspace = true, features = ["derive"]}
+serde_json = {workspace = true}
+tokio = {workspace = true, features = ["full"]}
+tonic = {workspace = true}
+tower = {workspace = true, features = ["full"]}
+tracing = {workspace = true}
+
+[dev-dependencies]
+once_cell = {workspace = true}
+proptest = {workspace = true}
+proptest-derive = {workspace = true}

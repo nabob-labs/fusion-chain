@@ -1,0 +1,121 @@
+[package]
+name = "fcli"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+
+[package.metadata.dist]
+dist = true
+
+[features]
+default = ["std", "parallel", "download-proving-keys"]
+integration-testnet = []
+download-proving-keys = ["fusion-proof-params/download-proving-keys"]
+sct-divergence-check = ["fusion-view/sct-divergence-check"]
+std = ["ark-ff/std", "ibc-types/std"]
+parallel = [
+    "fusion-proof-params/parallel",
+    "decaf377/parallel",
+    "fusion-shielded-pool/parallel",
+    "fusion-auction/parallel",
+    "fusion-dex/parallel",
+    "fusion-governance/parallel",
+    "fusion-stake/parallel",
+    "fusion-transaction/parallel",
+    "fusion-wallet/parallel",
+]
+
+[dependencies]
+anyhow = {workspace = true}
+pbjson-types = { workspace = true }
+ark-ff = {workspace = true, default-features = false}
+async-stream = {workspace = true}
+base64 = {workspace = true}
+bincode = {workspace = true}
+blake2b_simd = {workspace = true}
+bytes = {workspace = true}
+camino = {workspace = true}
+cnidarium = {workspace = true, features = ["rpc"] }
+clap = {workspace = true, features = ["derive", "env"]}
+colored = "2.1.0"
+colored_json = "4.1"
+comfy-table = "5"
+csv = "1"
+decaf377 = {workspace = true, default-features = true}
+decaf377-rdsa = {workspace = true}
+dialoguer = "0.10.4"
+time = "0.3"
+directories = {workspace = true}
+ed25519-consensus = {workspace = true}
+futures = {workspace = true}
+hex = {workspace = true}
+http-body = {workspace = true}
+humantime = {workspace = true}
+ibc-proto = {workspace = true, default-features = true}
+ibc-types = {workspace = true, features = ["std", "with_serde"], default-features = true}
+indicatif = {workspace = true}
+jmt = {workspace = true}
+ndarray = "0.15.6"
+once_cell = {workspace = true}
+fusion-app = {workspace = true, default-features = false}
+fusion-asset = {workspace = true, default-features = false}
+fusion-community-pool = {workspace = true, default-features = false}
+fusion-compact-block = {workspace = true, default-features = false}
+fusion-custody = {workspace = true}
+fusion-auction = {workspace = true, default-features = false}
+fusion-dex = {workspace = true, default-features = false}
+fusion-fee = {workspace = true, default-features = false}
+fusion-governance = {workspace = true, default-features = false}
+fusion-ibc = {workspace = true, default-features = false}
+fusion-keys = {workspace = true, default-features = false}
+fusion-num = {workspace = true, default-features = false}
+fusion-proof-params = { workspace = true, default-features = true }
+fusion-proto = {workspace = true, features = ["rpc", "box-grpc"], default-features = true}
+fusion-sct = {workspace = true, default-features = false}
+fusion-shielded-pool = {workspace = true, default-features = false}
+fusion-stake = {workspace = true, default-features = false}
+fusion-tct = {workspace = true, default-features = true}
+fusion-transaction = {workspace = true, default-features = true}
+fusion-view = {workspace = true}
+fusion-wallet = {workspace = true}
+pin-project = {workspace = true}
+rand = {workspace = true}
+rand_chacha = {workspace = true}
+rand_core = {workspace = true, features = ["getrandom"]}
+regex = {workspace = true}
+rpassword = "7"
+rustls = {workspace = true}
+serde = {workspace = true, features = ["derive"]}
+serde_json = {workspace = true}
+serde_with = {workspace = true, features = ["hex"]}
+sha2 = {workspace = true}
+simple-base64 = "0.23"
+tendermint = {workspace = true, features = ["rust-crypto"], default-features = true}
+tokio = {workspace = true, features = ["full"]}
+tokio-stream = {workspace = true}
+tokio-util = {workspace = true}
+toml = {workspace = true, features = ["preserve_order"]}
+tonic = {workspace = true, features = ["tls-webpki-roots", "tls"]}
+tower = {workspace = true, features = ["full"]}
+termion = {workspace = true}
+tracing = {workspace = true}
+tracing-subscriber = {workspace = true, features = ["env-filter", "ansi"]}
+url = {workspace = true, features = ["serde"]}
+
+[dev-dependencies]
+assert_cmd = {workspace = true}
+fusion-governance = {workspace = true, default-features = false}
+predicates = "2.1"
+regex = {workspace = true}
+tempfile = {workspace = true}
+
+[dev-dependencies.fusion-proof-params]
+default-features = true
+workspace = true
+features = [
+    "bundled-proving-keys",
+    "download-proving-keys",
+]

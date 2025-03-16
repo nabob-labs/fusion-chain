@@ -1,0 +1,28 @@
+[package]
+name = "fusion-eddy"
+authors.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+
+[features]
+default = ["std"]
+std = ["ark-ff/std", "ark-std/std"]
+
+[dependencies]
+anyhow = {workspace = true}
+ark-ff = {workspace = true, default-features = false}
+ark-std = {workspace = true, default-features = false}
+decaf377 = {workspace = true}
+futures = {workspace = true}
+merlin = "3"
+parking_lot = {workspace = true}
+proptest = {workspace = true}
+rand = {workspace = true}
+rand_core = {workspace = true}
+thiserror = {workspace = true}
+
+[dev-dependencies]
+tokio = {workspace = true, features = ["full"]}
