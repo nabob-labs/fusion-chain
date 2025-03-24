@@ -84,6 +84,9 @@ impl serde::Serialize for Action {
                 action::Action::ActionDutchAuctionWithdraw(v) => {
                     struct_ser.serialize_field("actionDutchAuctionWithdraw", v)?;
                 }
+                action::Action::ActionLiquidityTournamentVote(v) => {
+                    struct_ser.serialize_field("actionLiquidityTournamentVote", v)?;
+                }
                 action::Action::Ics20Withdrawal(v) => {
                     struct_ser.serialize_field("ics20Withdrawal", v)?;
                 }
@@ -142,6 +145,8 @@ impl<'de> serde::Deserialize<'de> for Action {
             "actionDutchAuctionEnd",
             "action_dutch_auction_withdraw",
             "actionDutchAuctionWithdraw",
+            "action_liquidity_tournament_vote",
+            "actionLiquidityTournamentVote",
             "ics20_withdrawal",
             "ics20Withdrawal",
         ];
@@ -172,6 +177,7 @@ impl<'de> serde::Deserialize<'de> for Action {
             ActionDutchAuctionSchedule,
             ActionDutchAuctionEnd,
             ActionDutchAuctionWithdraw,
+            ActionLiquidityTournamentVote,
             Ics20Withdrawal,
             __SkipField__,
         }
@@ -219,6 +225,7 @@ impl<'de> serde::Deserialize<'de> for Action {
                             "actionDutchAuctionSchedule" | "action_dutch_auction_schedule" => Ok(GeneratedField::ActionDutchAuctionSchedule),
                             "actionDutchAuctionEnd" | "action_dutch_auction_end" => Ok(GeneratedField::ActionDutchAuctionEnd),
                             "actionDutchAuctionWithdraw" | "action_dutch_auction_withdraw" => Ok(GeneratedField::ActionDutchAuctionWithdraw),
+                            "actionLiquidityTournamentVote" | "action_liquidity_tournament_vote" => Ok(GeneratedField::ActionLiquidityTournamentVote),
                             "ics20Withdrawal" | "ics20_withdrawal" => Ok(GeneratedField::Ics20Withdrawal),
                             _ => Ok(GeneratedField::__SkipField__),
                         }
@@ -410,6 +417,13 @@ impl<'de> serde::Deserialize<'de> for Action {
                             action__ = map_.next_value::<::std::option::Option<_>>()?.map(action::Action::ActionDutchAuctionWithdraw)
 ;
                         }
+                        GeneratedField::ActionLiquidityTournamentVote => {
+                            if action__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("actionLiquidityTournamentVote"));
+                            }
+                            action__ = map_.next_value::<::std::option::Option<_>>()?.map(action::Action::ActionLiquidityTournamentVote)
+;
+                        }
                         GeneratedField::Ics20Withdrawal => {
                             if action__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("ics20Withdrawal"));
@@ -519,6 +533,9 @@ impl serde::Serialize for ActionPlan {
                 action_plan::Action::ActionDutchAuctionWithdraw(v) => {
                     struct_ser.serialize_field("actionDutchAuctionWithdraw", v)?;
                 }
+                action_plan::Action::ActionLiquidityTournamentVote(v) => {
+                    struct_ser.serialize_field("actionLiquidityTournamentVote", v)?;
+                }
             }
         }
         struct_ser.end()
@@ -576,6 +593,8 @@ impl<'de> serde::Deserialize<'de> for ActionPlan {
             "actionDutchAuctionEnd",
             "action_dutch_auction_withdraw",
             "actionDutchAuctionWithdraw",
+            "action_liquidity_tournament_vote",
+            "actionLiquidityTournamentVote",
         ];
 
         #[allow(clippy::enum_variant_names)]
@@ -605,6 +624,7 @@ impl<'de> serde::Deserialize<'de> for ActionPlan {
             ActionDutchAuctionSchedule,
             ActionDutchAuctionEnd,
             ActionDutchAuctionWithdraw,
+            ActionLiquidityTournamentVote,
             __SkipField__,
         }
         impl<'de> serde::Deserialize<'de> for GeneratedField {
@@ -652,6 +672,7 @@ impl<'de> serde::Deserialize<'de> for ActionPlan {
                             "actionDutchAuctionSchedule" | "action_dutch_auction_schedule" => Ok(GeneratedField::ActionDutchAuctionSchedule),
                             "actionDutchAuctionEnd" | "action_dutch_auction_end" => Ok(GeneratedField::ActionDutchAuctionEnd),
                             "actionDutchAuctionWithdraw" | "action_dutch_auction_withdraw" => Ok(GeneratedField::ActionDutchAuctionWithdraw),
+                            "actionLiquidityTournamentVote" | "action_liquidity_tournament_vote" => Ok(GeneratedField::ActionLiquidityTournamentVote),
                             _ => Ok(GeneratedField::__SkipField__),
                         }
                     }
@@ -849,6 +870,13 @@ impl<'de> serde::Deserialize<'de> for ActionPlan {
                             action__ = map_.next_value::<::std::option::Option<_>>()?.map(action_plan::Action::ActionDutchAuctionWithdraw)
 ;
                         }
+                        GeneratedField::ActionLiquidityTournamentVote => {
+                            if action__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("actionLiquidityTournamentVote"));
+                            }
+                            action__ = map_.next_value::<::std::option::Option<_>>()?.map(action_plan::Action::ActionLiquidityTournamentVote)
+;
+                        }
                         GeneratedField::__SkipField__ => {
                             let _ = map_.next_value::<serde::de::IgnoredAny>()?;
                         }
@@ -948,6 +976,9 @@ impl serde::Serialize for ActionView {
                 action_view::ActionView::UndelegateClaim(v) => {
                     struct_ser.serialize_field("undelegateClaim", v)?;
                 }
+                action_view::ActionView::ActionLiquidityTournamentVote(v) => {
+                    struct_ser.serialize_field("actionLiquidityTournamentVote", v)?;
+                }
                 action_view::ActionView::Ics20Withdrawal(v) => {
                     struct_ser.serialize_field("ics20Withdrawal", v)?;
                 }
@@ -1006,6 +1037,8 @@ impl<'de> serde::Deserialize<'de> for ActionView {
             "actionDutchAuctionWithdraw",
             "undelegate_claim",
             "undelegateClaim",
+            "action_liquidity_tournament_vote",
+            "actionLiquidityTournamentVote",
             "ics20_withdrawal",
             "ics20Withdrawal",
         ];
@@ -1036,6 +1069,7 @@ impl<'de> serde::Deserialize<'de> for ActionView {
             ActionDutchAuctionEnd,
             ActionDutchAuctionWithdraw,
             UndelegateClaim,
+            ActionLiquidityTournamentVote,
             Ics20Withdrawal,
             __SkipField__,
         }
@@ -1083,6 +1117,7 @@ impl<'de> serde::Deserialize<'de> for ActionView {
                             "actionDutchAuctionEnd" | "action_dutch_auction_end" => Ok(GeneratedField::ActionDutchAuctionEnd),
                             "actionDutchAuctionWithdraw" | "action_dutch_auction_withdraw" => Ok(GeneratedField::ActionDutchAuctionWithdraw),
                             "undelegateClaim" | "undelegate_claim" => Ok(GeneratedField::UndelegateClaim),
+                            "actionLiquidityTournamentVote" | "action_liquidity_tournament_vote" => Ok(GeneratedField::ActionLiquidityTournamentVote),
                             "ics20Withdrawal" | "ics20_withdrawal" => Ok(GeneratedField::Ics20Withdrawal),
                             _ => Ok(GeneratedField::__SkipField__),
                         }
@@ -1274,6 +1309,13 @@ impl<'de> serde::Deserialize<'de> for ActionView {
                             action_view__ = map_.next_value::<::std::option::Option<_>>()?.map(action_view::ActionView::UndelegateClaim)
 ;
                         }
+                        GeneratedField::ActionLiquidityTournamentVote => {
+                            if action_view__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("actionLiquidityTournamentVote"));
+                            }
+                            action_view__ = map_.next_value::<::std::option::Option<_>>()?.map(action_view::ActionView::ActionLiquidityTournamentVote)
+;
+                        }
                         GeneratedField::Ics20Withdrawal => {
                             if action_view__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("ics20Withdrawal"));
@@ -1311,6 +1353,9 @@ impl serde::Serialize for AuthorizationData {
         if !self.delegator_vote_auths.is_empty() {
             len += 1;
         }
+        if !self.lqt_vote_auths.is_empty() {
+            len += 1;
+        }
         let mut struct_ser = serializer.serialize_struct("fusion.core.transaction.v1.AuthorizationData", len)?;
         if let Some(v) = self.effect_hash.as_ref() {
             struct_ser.serialize_field("effectHash", v)?;
@@ -1320,6 +1365,9 @@ impl serde::Serialize for AuthorizationData {
         }
         if !self.delegator_vote_auths.is_empty() {
             struct_ser.serialize_field("delegatorVoteAuths", &self.delegator_vote_auths)?;
+        }
+        if !self.lqt_vote_auths.is_empty() {
+            struct_ser.serialize_field("lqtVoteAuths", &self.lqt_vote_auths)?;
         }
         struct_ser.end()
     }
@@ -1337,6 +1385,8 @@ impl<'de> serde::Deserialize<'de> for AuthorizationData {
             "spendAuths",
             "delegator_vote_auths",
             "delegatorVoteAuths",
+            "lqt_vote_auths",
+            "lqtVoteAuths",
         ];
 
         #[allow(clippy::enum_variant_names)]
@@ -1344,6 +1394,7 @@ impl<'de> serde::Deserialize<'de> for AuthorizationData {
             EffectHash,
             SpendAuths,
             DelegatorVoteAuths,
+            LqtVoteAuths,
             __SkipField__,
         }
         impl<'de> serde::Deserialize<'de> for GeneratedField {
@@ -1369,6 +1420,7 @@ impl<'de> serde::Deserialize<'de> for AuthorizationData {
                             "effectHash" | "effect_hash" => Ok(GeneratedField::EffectHash),
                             "spendAuths" | "spend_auths" => Ok(GeneratedField::SpendAuths),
                             "delegatorVoteAuths" | "delegator_vote_auths" => Ok(GeneratedField::DelegatorVoteAuths),
+                            "lqtVoteAuths" | "lqt_vote_auths" => Ok(GeneratedField::LqtVoteAuths),
                             _ => Ok(GeneratedField::__SkipField__),
                         }
                     }
@@ -1391,6 +1443,7 @@ impl<'de> serde::Deserialize<'de> for AuthorizationData {
                 let mut effect_hash__ = None;
                 let mut spend_auths__ = None;
                 let mut delegator_vote_auths__ = None;
+                let mut lqt_vote_auths__ = None;
                 while let Some(k) = map_.next_key()? {
                     match k {
                         GeneratedField::EffectHash => {
@@ -1411,6 +1464,12 @@ impl<'de> serde::Deserialize<'de> for AuthorizationData {
                             }
                             delegator_vote_auths__ = Some(map_.next_value()?);
                         }
+                        GeneratedField::LqtVoteAuths => {
+                            if lqt_vote_auths__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("lqtVoteAuths"));
+                            }
+                            lqt_vote_auths__ = Some(map_.next_value()?);
+                        }
                         GeneratedField::__SkipField__ => {
                             let _ = map_.next_value::<serde::de::IgnoredAny>()?;
                         }
@@ -1420,6 +1479,7 @@ impl<'de> serde::Deserialize<'de> for AuthorizationData {
                     effect_hash: effect_hash__,
                     spend_auths: spend_auths__.unwrap_or_default(),
                     delegator_vote_auths: delegator_vote_auths__.unwrap_or_default(),
+                    lqt_vote_auths: lqt_vote_auths__.unwrap_or_default(),
                 })
             }
         }

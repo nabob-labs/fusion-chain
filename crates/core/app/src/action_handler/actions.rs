@@ -56,6 +56,7 @@ impl AppActionHandler for Action {
             Action::ActionDutchAuctionSchedule(action) => action.check_stateless(()).await,
             Action::ActionDutchAuctionEnd(action) => action.check_stateless(()).await,
             Action::ActionDutchAuctionWithdraw(action) => action.check_stateless(()).await,
+            Action::ActionLiquidityTournamentVote(action) => action.check_stateless(context).await,
         }
     }
 
@@ -97,6 +98,7 @@ impl AppActionHandler for Action {
             Action::ActionDutchAuctionSchedule(action) => action.check_historical(state).await,
             Action::ActionDutchAuctionEnd(action) => action.check_historical(state).await,
             Action::ActionDutchAuctionWithdraw(action) => action.check_historical(state).await,
+            Action::ActionLiquidityTournamentVote(action) => action.check_historical(state).await,
         }
     }
 
@@ -138,6 +140,7 @@ impl AppActionHandler for Action {
             Action::ActionDutchAuctionSchedule(action) => action.check_and_execute(state).await,
             Action::ActionDutchAuctionEnd(action) => action.check_and_execute(state).await,
             Action::ActionDutchAuctionWithdraw(action) => action.check_and_execute(state).await,
+            Action::ActionLiquidityTournamentVote(action) => action.check_and_execute(state).await,
         }
     }
 }

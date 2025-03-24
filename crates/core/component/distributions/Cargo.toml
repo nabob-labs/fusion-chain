@@ -13,6 +13,7 @@ component = [
     "cnidarium",
     "fusion-proto/cnidarium",
     "fusion-sct/component",
+    "tonic",
 ]
 default = ["component"]
 docsrs = []
@@ -29,6 +30,7 @@ fusion-sct = {workspace = true, default-features = false}
 serde = {workspace = true, features = ["derive"]}
 tendermint = {workspace = true}
 tracing = {workspace = true}
+tonic = {workspace = true, optional = true}
 
 [dev-dependencies]
 getrandom = {workspace = true}

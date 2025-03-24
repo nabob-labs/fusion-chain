@@ -84,7 +84,7 @@ impl QueryService for Server {
             .await
             .map_err(|e| tonic::Status::unavailable(format!("error getting block height: {e}")))?;
 
-        // Perform housekeeping, so long-lived connections don't cause fnsd to leak memory.
+        // Perform housekeeping, so long-lived connections don't cause pd to leak memory.
         std::mem::drop(snapshot);
 
         // Treat end_height = 0 as end_height = current_height so that if the

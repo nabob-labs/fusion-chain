@@ -218,7 +218,7 @@ impl ConstantProduct {
             })
             .collect();
 
-        let mut fd = std::fs::File::create(&file).map_err(|e| {
+        let mut fnsd = std::fs::File::create(&file).map_err(|e| {
             anyhow!(
                 "fs error opening debug file {}: {}",
                 file.to_string_lossy(),
@@ -229,7 +229,7 @@ impl ConstantProduct {
         let json_data = serde_json::to_string(&debug_positions)
             .map_err(|e| anyhow!("error serializing PayoffPositionEntry: {}", e))?;
 
-        fd.write_all(json_data.as_bytes())
+        fnsd.write_all(json_data.as_bytes())
             .map_err(|e| anyhow!("error writing {}: {}", file.to_string_lossy(), e))?;
         Ok(())
     }

@@ -310,7 +310,7 @@ impl TransactionViewExt for TransactionView {
                             output_2,
                             swap_tx: _,
                         } => {
-                            // View service can't see SwapClaims: https://github.com/nabob-labs/fusion-chain/issues/2547
+                            // View service can't see SwapClaims
                             dbg!(swap_claim);
                             let claimed_value = match (
                                 value_view_amount(&output_1.value).value(),
@@ -458,6 +458,7 @@ impl TransactionViewExt for TransactionView {
                     action = format!("{} -> [{}]", x.action.auction_id, inside);
                     ["Dutch Auction Withdraw", &action]
                 }
+                fusion_transaction::ActionView::ActionLiquidityTournamentVote(_) => todo!(),
             };
 
             actions_table.add_row(row);

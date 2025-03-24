@@ -93,7 +93,7 @@ impl SwapPlaintext {
 
     // Constructs the unique asset ID for a swap as a poseidon hash of the input data for the swap.
     //
-    // https://protocol.fusion.chain/main/zswap/swap.html#swap-actions
+    // https://protocol.fusion.zone/main/zswap/swap.html#swap-actions
     pub fn swap_commitment(&self) -> StateCommitment {
         let inner = hash_7(
             &DOMAIN_SEPARATOR,

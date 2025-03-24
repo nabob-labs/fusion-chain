@@ -15,6 +15,7 @@ parallel = [
     "fusion-shielded-pool/parallel",
     "fusion-auction/parallel",
     "fusion-dex/parallel",
+    "fusion-funding/parallel",
     "fusion-governance/parallel",
     "fusion-stake/parallel",
 ]
@@ -45,6 +46,7 @@ fusion-community-pool = {workspace = true, default-features = false}
 fusion-auction = {workspace = true, default-features = false}
 fusion-dex = {workspace = true, default-features = false}
 fusion-fee = {workspace = true, default-features = false}
+fusion-funding = {workspace = true, default-features = false}
 fusion-governance = {workspace = true, default-features = false}
 fusion-ibc = {workspace = true, default-features = false}
 fusion-keys = {workspace = true, default-features = false}

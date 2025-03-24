@@ -41,6 +41,7 @@ pbjson-types = {workspace = true}
 fusion-keys = {workspace = true, default-features = false}
 fusion-proto = {workspace = true, default-features = false}
 fusion-tct = {workspace = true, default-features = true}
+fusion-txhash = {workspace = true, default-features = false}
 poseidon377 = {workspace = true, features = ["r1cs"]}
 rand = {workspace = true}
 rand_core = {workspace = true, features = ["getrandom"]}

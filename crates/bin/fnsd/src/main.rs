@@ -12,7 +12,7 @@ use cnidarium::Storage;
 use metrics_exporter_prometheus::PrometheusBuilder;
 use fnsd::{
     cli::{NetworkCommand, Opt, RootCommand},
-    migrate::Migration::{Mainnet2, ReadyToStart},
+    migrate::Migration::{Mainnet3, ReadyToStart},
     network::{
         config::{get_network_dir, parse_tm_address, url_has_necessary_parts},
         generate::NetworkConfig,
@@ -324,7 +324,7 @@ async fn main() -> anyhow::Result<()> {
             };
 
             // Join the target network, looking up network info and writing
-            // local configs for fnsd and cometbft.
+            // local configs for pd and cometbft.
             network_join(
                 output_dir.clone(),
                 node,
@@ -502,7 +502,7 @@ async fn main() -> anyhow::Result<()> {
 
             let genesis_start = fnsd::migrate::last_block_timestamp(fnsd_home.clone()).await?;
             tracing::info!(?genesis_start, "last block timestamp");
-            Mainnet2
+            Mainnet3
                 .migrate(fnsd_home.clone(), comet_home, Some(genesis_start), force)
                 .instrument(fnsd_migrate_span)
                 .await

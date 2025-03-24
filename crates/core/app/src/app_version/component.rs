@@ -16,7 +16,8 @@ fn version_to_software_version(version: u64) -> &'static str {
         6 => "v0.77.x",
         7 => "v0.79.x",
         8 => "v0.80.x",
-        9 => "v0.81.x",
+        9 => "v1.0.x",
+        10 => "v2.0.x",
         _ => "unknown",
     }
 }
@@ -29,7 +30,9 @@ enum CheckContext {
 
 /// Check that the expected version matches the found version, if it set.
 /// This will return an error if the versions do not match.
+#[tracing::instrument]
 fn check_version(ctx: CheckContext, expected: u64, found: Option<u64>) -> anyhow::Result<()> {
+    tracing::debug!("running version check");
     let found = found.unwrap_or(expected);
     if found == expected {
         return Ok(());
@@ -112,7 +115,7 @@ fn write_app_version_safeguard<S: StateWriteProto>(s: &mut S, x: u64) {
 /// is uninitialized (pregenesis).
 ///
 /// # UIP:
-/// More context is available in the UIP-6 document: https://uips.fusion.chain/uip-6.html
+/// More context is available in the UIP-6 document: https://uips.fusion.zone/uip-6.html
 pub async fn check_and_update_app_version(s: Storage) -> anyhow::Result<()> {
     // If the storage is not initialized, avoid touching it at all,
     // to avoid complaints about it already being initialized before the first genesis.

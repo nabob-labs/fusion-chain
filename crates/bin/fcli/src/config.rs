@@ -16,7 +16,7 @@ use fusion_keys::FullViewingKey;
 #[serde_as]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 pub struct FcliConfig {
-    /// The URL of the gRPC endpoint used to talk to fnsd.
+    /// The URL of the gRPC endpoint used to talk to pd.
     pub grpc_url: Url,
     /// If set, use a remote view service instead of local synchronization.
     pub view_url: Option<Url>,
@@ -115,7 +115,7 @@ mod tests {
     #[test]
     fn toml_config() {
         let config = FcliConfig {
-            grpc_url: Url::parse("https://grpc.testnet.fusion.chain").unwrap(),
+            grpc_url: Url::parse("https://grpc.testnet.fusion.xyz").unwrap(),
             disable_warning: false,
             view_url: None,
             full_viewing_key: fusion_keys::test_keys::FULL_VIEWING_KEY.clone(),

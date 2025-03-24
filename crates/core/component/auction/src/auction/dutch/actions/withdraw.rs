@@ -35,7 +35,6 @@ impl ActionDutchAuctionWithdraw {
     ///                       └──────────────────────┘
     ///
     /// More context: [Actions and Value balance][protocol-spec]
-    /// [protocol-spec]: https://protocol.fusion.chain/main/transactions.html#actions-and-value-balance
     pub fn balance_commitment(&self) -> balance::Commitment {
         let prev_auction_nft = Balance::from(Value {
             amount: 1u128.into(),

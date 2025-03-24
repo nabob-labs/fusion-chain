@@ -1,4 +1,4 @@
-//! Logic for enabling `fnsd` to interact with chain state.
+//! Logic for enabling `pd` to interact with chain state.
 use std::{
     future::Future,
     pin::Pin,

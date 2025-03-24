@@ -7,7 +7,8 @@ use async_trait::async_trait;
 use cnidarium::{EscapedByteSlice, StateRead, StateWrite};
 use futures::Stream;
 use futures::StreamExt;
-use fusion_asset::{asset, Balance};
+use fusion_asset::{asset, Balance, Value, STAKING_TOKEN_ASSET_ID};
+use fusion_num::Amount;
 use fusion_proto::DomainType;
 use fusion_proto::{StateReadProto, StateWriteProto};
 use tap::Tap;
@@ -18,7 +19,7 @@ use crate::component::{
     dex::StateReadExt as _,
     position_manager::{
         base_liquidity_index::AssetByLiquidityIndex, inventory_index::PositionByInventoryIndex,
-        price_index::PositionByPriceIndex,
+        price_index::PositionByPriceIndex, volume_tracker::PositionVolumeTracker,
     },
 };
 use crate::lp::Reserves;
@@ -39,6 +40,7 @@ mod base_liquidity_index;
 pub(crate) mod counter;
 pub(crate) mod inventory_index;
 pub(crate) mod price_index;
+pub(crate) mod volume_tracker;
 
 #[async_trait]
 pub trait PositionRead: StateRead {
@@ -441,6 +443,7 @@ pub trait PositionManager: StateWrite + PositionRead {
                 sequence: current_sequence,
             } = prev_state.state
             {
+                // Defense-in-depth: Check that the sequence number is incremented by 1.
                 if current_sequence + 1 != sequence {
                     anyhow::bail!(
                         "attempted to withdraw position {} with sequence {}, expected {}",
@@ -487,6 +490,52 @@ pub trait PositionManager: StateWrite + PositionRead {
 
         Ok(reserves)
     }
+
+    /// This adds extra rewards in the form of staking tokens to the reserves of a position.
+    #[tracing::instrument(level = "debug", skip(self))]
+    async fn reward_position(
+        &mut self,
+        position_id: position::Id,
+        reward: Amount,
+    ) -> anyhow::Result<()> {
+        let prev_state = self
+            .position_by_id(&position_id)
+            .await?
+            .ok_or_else(|| anyhow::anyhow!("rewarding unknown position {}", position_id))?;
+        // The new state is the result of adding the staking token to the reserves,
+        // or doing nothing if for some reason this position does not have the staking token.
+        let new_state = {
+            let mut new_state = prev_state.clone();
+            let pair = prev_state.phi.pair;
+            let to_increment = if pair.asset_1() == *STAKING_TOKEN_ASSET_ID {
+                &mut new_state.reserves.r1
+            } else if pair.asset_2() == *STAKING_TOKEN_ASSET_ID {
+                &mut new_state.reserves.r2
+            } else {
+                tracing::error!("pair {} does not contain staking asset", pair);
+                return Ok(());
+            };
+            *to_increment = to_increment.checked_add(&reward).expect(&format!(
+                "failed to add reward {} to reserves {}",
+                reward, *to_increment
+            ));
+
+            // We are done, we only deposit rewards into the position's reserves.
+            // Even, if it is closed or withdrawn.
+
+            new_state
+        };
+        self.update_position(&position_id, Some(prev_state), new_state)
+            .await?;
+        // At this point, we can credit the VCB, because the update passed.
+        // This is a credit because the reward has moved value *into* the DEX.
+        self.dex_vcb_credit(Value {
+            asset_id: *STAKING_TOKEN_ASSET_ID,
+            amount: reward,
+        })
+        .await?;
+        Ok(())
+    }
 }
 
 impl<T: StateWrite + ?Sized + Chandelier> PositionManager for T {}
@@ -517,6 +566,7 @@ trait Inner: StateWrite {
         self.update_trading_pair_position_counter(&prev_state, &new_state)
             .await?;
         self.update_position_by_price_index(&id, &prev_state, &new_state)?;
+        self.update_volume_index(&id, &prev_state, &new_state).await;
 
         self.put(state_key::position_by_id(&id), new_state.clone());
         Ok(new_state)
@@ -543,13 +593,14 @@ trait Inner: StateWrite {
                     );
                 }
                 (Withdrawn { sequence: old_seq }, Withdrawn { sequence: new_seq }) => {
-                    let expected_seq = old_seq.saturating_add(1);
+                    tracing::debug!(?old_seq, ?new_seq, "updating withdrawn position");
+                    // We allow the sequence number to be incremented by one, or to stay the same.
+                    // We want to allow the following scenario:
+                    // 1. User withdraws from a position (increasing the sequence number)
+                    // 2. A component deposits rewards into the position (keeping the sequence number the same)
                     ensure!(
-                        new_seq == expected_seq,
-                        "withdrawn must increase 1-by-1 (old: {}, new: {}, expected: {})",
-                        old_seq,
-                        new_seq,
-                        expected_seq
+                        new_seq == old_seq + 1 || new_seq == old_seq,
+                        "if the sequence number increase, it must increase by exactly one"
                     );
                 }
                 _ => bail!("invalid transition"),

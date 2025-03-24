@@ -224,7 +224,7 @@ pub trait StateWriteExt: StateWrite + StateReadExt {
     }
 
     // returns the ConsensusState for the fusion chain (this chain) at the given height
-    fn put_fusion_consensus_state(
+    fn put_fusion_sdk_consensus_state(
         &mut self,
         height: Height,
         consensus_state: TendermintConsensusState,
@@ -331,7 +331,7 @@ pub trait StateReadExt: StateRead {
     }
 
     // returns the ConsensusState for the fusion chain (this chain) at the given height
-    async fn get_fusion_consensus_state(
+    async fn get_fusion_sdk_consensus_state(
         &self,
         height: Height,
     ) -> Result<TendermintConsensusState> {

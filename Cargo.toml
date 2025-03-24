@@ -29,8 +29,8 @@ members = [
     "crates/core/component/stake",
     "crates/core/component/governance",
     "crates/core/component/community-pool",
-    "crates/core/component/funding",
     "crates/core/component/dex",
+    "crates/core/component/funding",
     "crates/core/component/auction",
     "crates/core/component/compact-block",
     "crates/crypto/proof-setup",
@@ -42,7 +42,7 @@ members = [
     "crates/util/tendermint-proxy",
     "crates/bin/fcli",
     "crates/bin/fvsd",
-    #"crates/bin/fnsd",
+    "crates/bin/fnsd",
     "crates/bin/findexer",
     "crates/bin/fmonitor",
     "tools/parameter-setup",
@@ -84,7 +84,7 @@ shared-version = true
 # Format spec for the auto-generated git tag, based on new version for release.
 tag-name = "v{{version}}"
 # The message is required for an annotated tag to be created.
-tag-message                = "FusionChain version {{version}}"
+tag-message                = "Fusion version {{version}}"
 pre-release-commit-message = "chore: release version {{version}}"
 # Permit publishing to crates.io; local developers should run `cargo release --no-publish`
 # to prepare the git info, then pushing to remote with tag will trigger crates.io publication.
@@ -103,7 +103,7 @@ allow-branch = ["*"]
 [workspace.package]
 authors    = ["Nabob Labs <team@naboblabs.xyz"]
 edition    = "2021"
-version    = "1.2.0"
+version    = "2.0.0"
 repository = "https://github.com/nabob-labs/fusion-chain"
 homepage   = "https://fusion.swap"
 license    = "Apache-2.0"
@@ -117,7 +117,7 @@ decaf377-ka = { path = "crates/crypto/decaf377-ka" }
 fusion-eddy = { path = "crates/crypto/eddy" }
 fusion-proof-params = { path = "crates/crypto/proof-params", default-features = false }
 fusion-tct = { path = "crates/crypto/tct", default-features = false }
-fusion-https = { path = "crates/util/auto-https" }
+fusion-auto-https = { path = "crates/util/auto-https" }
 cometindex = { path = "crates/util/cometindex" }
 fusion-tower-trace = { path = "crates/util/tower-trace" }
 fusion-txhash = { path = "crates/core/txhash", default-features = false }
@@ -132,8 +132,8 @@ fusion-distributions = { path = "crates/core/component/distributions", default-f
 fusion-stake = { path = "crates/core/component/stake", default-features = false }
 fusion-governance = { path = "crates/core/component/governance", default-features = false }
 fusion-community-pool = { path = "crates/core/component/community-pool", default-features = false }
-fusion-funding = { path = "crates/core/component/funding", default-features = false }
 fusion-dex = { path = "crates/core/component/dex", default-features = false }
+fusion-funding = { path = "crates/core/component/funding", default-features = false }
 fusion-auction = { path = "crates/core/component/auction", default-features = false }
 fusion-compact-block = { path = "crates/core/component/compact-block", default-features = false }
 fusion-proof-setup = { path = "crates/crypto/proof-setup" }
@@ -152,7 +152,7 @@ ark-r1cs-std = { default-features = false, version = "0.4.0" }
 ark-relations = { version = "0.4" }
 ark-serialize = { version = "0.4.2" }
 ark-snark = { version = "0.4.0" }
-ark-std  = { default-features = false, version = "0.4" }
+ark-std = { default-features = false, version = "0.4" }
 assert_cmd = { version = "2.0" }
 async-stream = { version = "0.3.5" }
 async-trait = { version = "0.1.52" }
@@ -181,7 +181,7 @@ futures = { version = "0.3.28" }
 hex = { version = "0.4.3" }
 http = { version = "1.2.0" }
 http-body = { version = "1.0.1" }
-http-body-util = { version = "0.1.2" }
+http-body-util  = { version = "0.1.2" }
 humantime = { version = "2.1" }
 ibc-proto = { default-features = false, version = "0.51.1" }
 ibc-types = { default-features = false, version = "0.15.0" }
@@ -224,7 +224,7 @@ sqlx = { version = "0.8", features = ["bigdecimal", "postgres", "runtime-tokio",
 tap = "1.0.1"
 tempfile = { version = "3.3.0" }
 tendermint = { default-features = false, version = "0.40.1" }
-tendermint-config= { version = "0.40.1" }
+tendermint-config = { version = "0.40.1" }
 tendermint-light-client-verifier = { version = "0.40.1" }
 tendermint-proto = { version = "0.40.1" }
 tendermint-rpc = { version = "0.40.1" }

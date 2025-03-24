@@ -10,6 +10,7 @@ use fusion_dex::{
     swap::SwapPlan,
     swap_claim::SwapClaimPlan,
 };
+use fusion_funding::liquidity_tournament::ActionLiquidityTournamentVotePlan;
 use fusion_governance::{
     DelegatorVotePlan, ProposalDepositClaim, ProposalSubmit, ProposalWithdraw, ValidatorVote,
 };
@@ -71,7 +72,7 @@ impl TransactionPlan {
         // actions the transaction will have when constructed.
 
         let mut state = blake2b_simd::Params::new()
-            .personal(b"FusionEfHs")
+            .personal(b"FusionedEfHs")
             .to_state();
 
         let parameters_hash = self.transaction_parameters.effect_hash();
@@ -206,6 +207,16 @@ impl TransactionPlan {
     pub fn delegator_vote_plans(&self) -> impl Iterator<Item = &DelegatorVotePlan> {
         self.actions.iter().filter_map(|action| {
             if let ActionPlan::DelegatorVote(v) = action {
+                Some(v)
+            } else {
+                None
+            }
+        })
+    }
+
+    pub fn lqt_vote_plans(&self) -> impl Iterator<Item = &ActionLiquidityTournamentVotePlan> {
+        self.actions.iter().filter_map(|action| {
+            if let ActionPlan::ActionLiquidityTournamentVote(v) = action {
                 Some(v)
             } else {
                 None

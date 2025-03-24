@@ -1,5 +1,5 @@
-//! Logic for onboarding a new `fnsd` node onto an existing network.
-//! Handles generation of config files for `fnsd` and `cometbft`.
+//! Logic for onboarding a new `pd` node onto an existing network.
+//! Handles generation of config files for `pd` and `cometbft`.
 use anyhow::Context;
 use rand::seq::SliceRandom;
 use rand_core::OsRng;
@@ -238,12 +238,12 @@ pub async fn fetch_peers(tm_url: &Url) -> anyhow::Result<Vec<TendermintAddress>>
 /// config for the fullnode. Allows bootstrapping from archived state, which is useful
 /// for nodes joining after a chain upgrade has been performed.
 ///
-/// Supports archive files generated via `fnsd export`, which contain only the rocksdb dir,
-/// and via `fnsd migrate`, which contain the rocksdb dir, new genesis content, and a private
+/// Supports archive files generated via `pd export`, which contain only the rocksdb dir,
+/// and via `pd migrate`, which contain the rocksdb dir, new genesis content, and a private
 /// validator state file.
 ///
-/// The `output_dir` should be the same argument as passed to `fnsd network --network-dir <dir> join`;
-/// relative paths for fnsd and cometbft will be created from this base path.
+/// The `output_dir` should be the same argument as passed to `pd network --network-dir <dir> join`;
+/// relative paths for pd and cometbft will be created from this base path.
 ///
 /// The `leave_archive` argument allows you to keep the downloaded archive file after unpacking.
 pub async fn unpack_state_archive(
@@ -269,7 +269,7 @@ pub async fn unpack_state_archive(
             .path_segments()
             .and_then(|segments| segments.last())
             .and_then(|name| if name.is_empty() { None } else { Some(name) })
-            .unwrap_or("fnsd-node-state-archive.tar.gz");
+            .unwrap_or("pd-node-state-archive.tar.gz");
 
         archive_filepath = output_dir.join(fname);
         let mut download_opts = std::fs::OpenOptions::new();
@@ -296,14 +296,14 @@ pub async fn unpack_state_archive(
     let tar = GzDecoder::new(f);
     let mut archive = tar::Archive::new(tar);
     // This dir-path building is duplicated in the config gen code.
-    let fnsd_home = output_dir.join("node0").join("fnsd");
+    let fnsd_home = output_dir.join("node0").join("pd");
     archive
         .unpack(&fnsd_home)
         .context("failed to extract tar.gz archive")?;
 
-    // If the archive we consumed was generated via `fnsd migrate`, then it will contain
+    // If the archive we consumed was generated via `pd migrate`, then it will contain
     // a new genesis file and priv_validator_state.json, both of which should be applied
-    // over the generated cometbft config files. If the archive was generated via `fnsd export`,
+    // over the generated cometbft config files. If the archive was generated via `pd export`,
     // then those extra files will be missing, and only rocksdb data will be present.
     let new_genesis = fnsd_home.join("genesis.json");
     let new_val_state = fnsd_home.join("priv_validator_state.json");

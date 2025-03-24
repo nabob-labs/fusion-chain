@@ -62,7 +62,7 @@ pub struct TransactionEffect {
 impl EffectingData for TransactionBody {
     fn effect_hash(&self) -> EffectHash {
         let mut state = blake2b_simd::Params::new()
-            .personal(b"FusionEfHs")
+            .personal(b"FusionedEfHs")
             .to_state();
 
         let parameters_hash = self.transaction_parameters.effect_hash();
@@ -272,10 +272,11 @@ impl Transaction {
                 | Action::Ics20Withdrawal(_)
                 | Action::CommunityPoolSpend(_)
                 | Action::CommunityPoolOutput(_)
-                | Action::CommunityPoolDeposit(_) => {}
-                Action::ActionDutchAuctionSchedule(_) => {}
-                Action::ActionDutchAuctionEnd(_) => {}
-                Action::ActionDutchAuctionWithdraw(_) => {}
+                | Action::CommunityPoolDeposit(_)
+                | Action::ActionDutchAuctionSchedule(_)
+                | Action::ActionDutchAuctionEnd(_)
+                | Action::ActionDutchAuctionWithdraw(_)
+                | Action::ActionLiquidityTournamentVote(_) => {}
             }
         }
 

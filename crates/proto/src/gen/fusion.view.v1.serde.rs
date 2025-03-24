@@ -3614,6 +3614,220 @@ impl<'de> serde::Deserialize<'de> for LatestSwapsResponse {
         deserializer.deserialize_struct("fusion.view.v1.LatestSwapsResponse", FIELDS, GeneratedVisitor)
     }
 }
+impl serde::Serialize for LqtVotingNotesRequest {
+    #[allow(deprecated)]
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        use serde::ser::SerializeStruct;
+        let mut len = 0;
+        if self.epoch_index != 0 {
+            len += 1;
+        }
+        if self.account_filter.is_some() {
+            len += 1;
+        }
+        let mut struct_ser = serializer.serialize_struct("fusion.view.v1.LqtVotingNotesRequest", len)?;
+        if self.epoch_index != 0 {
+            #[allow(clippy::needless_borrow)]
+            #[allow(clippy::needless_borrows_for_generic_args)]
+            struct_ser.serialize_field("epochIndex", ToString::to_string(&self.epoch_index).as_str())?;
+        }
+        if let Some(v) = self.account_filter.as_ref() {
+            struct_ser.serialize_field("accountFilter", v)?;
+        }
+        struct_ser.end()
+    }
+}
+impl<'de> serde::Deserialize<'de> for LqtVotingNotesRequest {
+    #[allow(deprecated)]
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        const FIELDS: &[&str] = &[
+            "epoch_index",
+            "epochIndex",
+            "account_filter",
+            "accountFilter",
+        ];
+
+        #[allow(clippy::enum_variant_names)]
+        enum GeneratedField {
+            EpochIndex,
+            AccountFilter,
+            __SkipField__,
+        }
+        impl<'de> serde::Deserialize<'de> for GeneratedField {
+            fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                struct GeneratedVisitor;
+
+                impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+                    type Value = GeneratedField;
+
+                    fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                        write!(formatter, "expected one of: {:?}", &FIELDS)
+                    }
+
+                    #[allow(unused_variables)]
+                    fn visit_str<E>(self, value: &str) -> std::result::Result<GeneratedField, E>
+                    where
+                        E: serde::de::Error,
+                    {
+                        match value {
+                            "epochIndex" | "epoch_index" => Ok(GeneratedField::EpochIndex),
+                            "accountFilter" | "account_filter" => Ok(GeneratedField::AccountFilter),
+                            _ => Ok(GeneratedField::__SkipField__),
+                        }
+                    }
+                }
+                deserializer.deserialize_identifier(GeneratedVisitor)
+            }
+        }
+        struct GeneratedVisitor;
+        impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+            type Value = LqtVotingNotesRequest;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                formatter.write_str("struct fusion.view.v1.LqtVotingNotesRequest")
+            }
+
+            fn visit_map<V>(self, mut map_: V) -> std::result::Result<LqtVotingNotesRequest, V::Error>
+                where
+                    V: serde::de::MapAccess<'de>,
+            {
+                let mut epoch_index__ = None;
+                let mut account_filter__ = None;
+                while let Some(k) = map_.next_key()? {
+                    match k {
+                        GeneratedField::EpochIndex => {
+                            if epoch_index__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("epochIndex"));
+                            }
+                            epoch_index__ = 
+                                Some(map_.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                            ;
+                        }
+                        GeneratedField::AccountFilter => {
+                            if account_filter__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("accountFilter"));
+                            }
+                            account_filter__ = map_.next_value()?;
+                        }
+                        GeneratedField::__SkipField__ => {
+                            let _ = map_.next_value::<serde::de::IgnoredAny>()?;
+                        }
+                    }
+                }
+                Ok(LqtVotingNotesRequest {
+                    epoch_index: epoch_index__.unwrap_or_default(),
+                    account_filter: account_filter__,
+                })
+            }
+        }
+        deserializer.deserialize_struct("fusion.view.v1.LqtVotingNotesRequest", FIELDS, GeneratedVisitor)
+    }
+}
+impl serde::Serialize for LqtVotingNotesResponse {
+    #[allow(deprecated)]
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        use serde::ser::SerializeStruct;
+        let mut len = 0;
+        if self.note_record.is_some() {
+            len += 1;
+        }
+        let mut struct_ser = serializer.serialize_struct("fusion.view.v1.LqtVotingNotesResponse", len)?;
+        if let Some(v) = self.note_record.as_ref() {
+            struct_ser.serialize_field("noteRecord", v)?;
+        }
+        struct_ser.end()
+    }
+}
+impl<'de> serde::Deserialize<'de> for LqtVotingNotesResponse {
+    #[allow(deprecated)]
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        const FIELDS: &[&str] = &[
+            "note_record",
+            "noteRecord",
+        ];
+
+        #[allow(clippy::enum_variant_names)]
+        enum GeneratedField {
+            NoteRecord,
+            __SkipField__,
+        }
+        impl<'de> serde::Deserialize<'de> for GeneratedField {
+            fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                struct GeneratedVisitor;
+
+                impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+                    type Value = GeneratedField;
+
+                    fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                        write!(formatter, "expected one of: {:?}", &FIELDS)
+                    }
+
+                    #[allow(unused_variables)]
+                    fn visit_str<E>(self, value: &str) -> std::result::Result<GeneratedField, E>
+                    where
+                        E: serde::de::Error,
+                    {
+                        match value {
+                            "noteRecord" | "note_record" => Ok(GeneratedField::NoteRecord),
+                            _ => Ok(GeneratedField::__SkipField__),
+                        }
+                    }
+                }
+                deserializer.deserialize_identifier(GeneratedVisitor)
+            }
+        }
+        struct GeneratedVisitor;
+        impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+            type Value = LqtVotingNotesResponse;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                formatter.write_str("struct fusion.view.v1.LqtVotingNotesResponse")
+            }
+
+            fn visit_map<V>(self, mut map_: V) -> std::result::Result<LqtVotingNotesResponse, V::Error>
+                where
+                    V: serde::de::MapAccess<'de>,
+            {
+                let mut note_record__ = None;
+                while let Some(k) = map_.next_key()? {
+                    match k {
+                        GeneratedField::NoteRecord => {
+                            if note_record__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("noteRecord"));
+                            }
+                            note_record__ = map_.next_value()?;
+                        }
+                        GeneratedField::__SkipField__ => {
+                            let _ = map_.next_value::<serde::de::IgnoredAny>()?;
+                        }
+                    }
+                }
+                Ok(LqtVotingNotesResponse {
+                    note_record: note_record__,
+                })
+            }
+        }
+        deserializer.deserialize_struct("fusion.view.v1.LqtVotingNotesResponse", FIELDS, GeneratedVisitor)
+    }
+}
 impl serde::Serialize for NoteByCommitmentRequest {
     #[allow(deprecated)]
     fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
@@ -5847,6 +6061,389 @@ impl<'de> serde::Deserialize<'de> for SwapRecord {
         deserializer.deserialize_struct("fusion.view.v1.SwapRecord", FIELDS, GeneratedVisitor)
     }
 }
+impl serde::Serialize for TournamentVotesRequest {
+    #[allow(deprecated)]
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        use serde::ser::SerializeStruct;
+        let mut len = 0;
+        if self.epoch_index != 0 {
+            len += 1;
+        }
+        if self.block_height != 0 {
+            len += 1;
+        }
+        if self.account_filter.is_some() {
+            len += 1;
+        }
+        let mut struct_ser = serializer.serialize_struct("fusion.view.v1.TournamentVotesRequest", len)?;
+        if self.epoch_index != 0 {
+            #[allow(clippy::needless_borrow)]
+            #[allow(clippy::needless_borrows_for_generic_args)]
+            struct_ser.serialize_field("epochIndex", ToString::to_string(&self.epoch_index).as_str())?;
+        }
+        if self.block_height != 0 {
+            #[allow(clippy::needless_borrow)]
+            #[allow(clippy::needless_borrows_for_generic_args)]
+            struct_ser.serialize_field("blockHeight", ToString::to_string(&self.block_height).as_str())?;
+        }
+        if let Some(v) = self.account_filter.as_ref() {
+            struct_ser.serialize_field("accountFilter", v)?;
+        }
+        struct_ser.end()
+    }
+}
+impl<'de> serde::Deserialize<'de> for TournamentVotesRequest {
+    #[allow(deprecated)]
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        const FIELDS: &[&str] = &[
+            "epoch_index",
+            "epochIndex",
+            "block_height",
+            "blockHeight",
+            "account_filter",
+            "accountFilter",
+        ];
+
+        #[allow(clippy::enum_variant_names)]
+        enum GeneratedField {
+            EpochIndex,
+            BlockHeight,
+            AccountFilter,
+            __SkipField__,
+        }
+        impl<'de> serde::Deserialize<'de> for GeneratedField {
+            fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                struct GeneratedVisitor;
+
+                impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+                    type Value = GeneratedField;
+
+                    fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                        write!(formatter, "expected one of: {:?}", &FIELDS)
+                    }
+
+                    #[allow(unused_variables)]
+                    fn visit_str<E>(self, value: &str) -> std::result::Result<GeneratedField, E>
+                    where
+                        E: serde::de::Error,
+                    {
+                        match value {
+                            "epochIndex" | "epoch_index" => Ok(GeneratedField::EpochIndex),
+                            "blockHeight" | "block_height" => Ok(GeneratedField::BlockHeight),
+                            "accountFilter" | "account_filter" => Ok(GeneratedField::AccountFilter),
+                            _ => Ok(GeneratedField::__SkipField__),
+                        }
+                    }
+                }
+                deserializer.deserialize_identifier(GeneratedVisitor)
+            }
+        }
+        struct GeneratedVisitor;
+        impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+            type Value = TournamentVotesRequest;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                formatter.write_str("struct fusion.view.v1.TournamentVotesRequest")
+            }
+
+            fn visit_map<V>(self, mut map_: V) -> std::result::Result<TournamentVotesRequest, V::Error>
+                where
+                    V: serde::de::MapAccess<'de>,
+            {
+                let mut epoch_index__ = None;
+                let mut block_height__ = None;
+                let mut account_filter__ = None;
+                while let Some(k) = map_.next_key()? {
+                    match k {
+                        GeneratedField::EpochIndex => {
+                            if epoch_index__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("epochIndex"));
+                            }
+                            epoch_index__ = 
+                                Some(map_.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                            ;
+                        }
+                        GeneratedField::BlockHeight => {
+                            if block_height__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("blockHeight"));
+                            }
+                            block_height__ = 
+                                Some(map_.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                            ;
+                        }
+                        GeneratedField::AccountFilter => {
+                            if account_filter__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("accountFilter"));
+                            }
+                            account_filter__ = map_.next_value()?;
+                        }
+                        GeneratedField::__SkipField__ => {
+                            let _ = map_.next_value::<serde::de::IgnoredAny>()?;
+                        }
+                    }
+                }
+                Ok(TournamentVotesRequest {
+                    epoch_index: epoch_index__.unwrap_or_default(),
+                    block_height: block_height__.unwrap_or_default(),
+                    account_filter: account_filter__,
+                })
+            }
+        }
+        deserializer.deserialize_struct("fusion.view.v1.TournamentVotesRequest", FIELDS, GeneratedVisitor)
+    }
+}
+impl serde::Serialize for TournamentVotesResponse {
+    #[allow(deprecated)]
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        use serde::ser::SerializeStruct;
+        let mut len = 0;
+        if !self.votes.is_empty() {
+            len += 1;
+        }
+        let mut struct_ser = serializer.serialize_struct("fusion.view.v1.TournamentVotesResponse", len)?;
+        if !self.votes.is_empty() {
+            struct_ser.serialize_field("votes", &self.votes)?;
+        }
+        struct_ser.end()
+    }
+}
+impl<'de> serde::Deserialize<'de> for TournamentVotesResponse {
+    #[allow(deprecated)]
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        const FIELDS: &[&str] = &[
+            "votes",
+        ];
+
+        #[allow(clippy::enum_variant_names)]
+        enum GeneratedField {
+            Votes,
+            __SkipField__,
+        }
+        impl<'de> serde::Deserialize<'de> for GeneratedField {
+            fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                struct GeneratedVisitor;
+
+                impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+                    type Value = GeneratedField;
+
+                    fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                        write!(formatter, "expected one of: {:?}", &FIELDS)
+                    }
+
+                    #[allow(unused_variables)]
+                    fn visit_str<E>(self, value: &str) -> std::result::Result<GeneratedField, E>
+                    where
+                        E: serde::de::Error,
+                    {
+                        match value {
+                            "votes" => Ok(GeneratedField::Votes),
+                            _ => Ok(GeneratedField::__SkipField__),
+                        }
+                    }
+                }
+                deserializer.deserialize_identifier(GeneratedVisitor)
+            }
+        }
+        struct GeneratedVisitor;
+        impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+            type Value = TournamentVotesResponse;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                formatter.write_str("struct fusion.view.v1.TournamentVotesResponse")
+            }
+
+            fn visit_map<V>(self, mut map_: V) -> std::result::Result<TournamentVotesResponse, V::Error>
+                where
+                    V: serde::de::MapAccess<'de>,
+            {
+                let mut votes__ = None;
+                while let Some(k) = map_.next_key()? {
+                    match k {
+                        GeneratedField::Votes => {
+                            if votes__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("votes"));
+                            }
+                            votes__ = Some(map_.next_value()?);
+                        }
+                        GeneratedField::__SkipField__ => {
+                            let _ = map_.next_value::<serde::de::IgnoredAny>()?;
+                        }
+                    }
+                }
+                Ok(TournamentVotesResponse {
+                    votes: votes__.unwrap_or_default(),
+                })
+            }
+        }
+        deserializer.deserialize_struct("fusion.view.v1.TournamentVotesResponse", FIELDS, GeneratedVisitor)
+    }
+}
+impl serde::Serialize for tournament_votes_response::Vote {
+    #[allow(deprecated)]
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        use serde::ser::SerializeStruct;
+        let mut len = 0;
+        if self.incentivized_asset.is_some() {
+            len += 1;
+        }
+        if self.vote_power.is_some() {
+            len += 1;
+        }
+        if self.reward.is_some() {
+            len += 1;
+        }
+        if self.transaction.is_some() {
+            len += 1;
+        }
+        let mut struct_ser = serializer.serialize_struct("fusion.view.v1.TournamentVotesResponse.Vote", len)?;
+        if let Some(v) = self.incentivized_asset.as_ref() {
+            struct_ser.serialize_field("incentivizedAsset", v)?;
+        }
+        if let Some(v) = self.vote_power.as_ref() {
+            struct_ser.serialize_field("votePower", v)?;
+        }
+        if let Some(v) = self.reward.as_ref() {
+            struct_ser.serialize_field("reward", v)?;
+        }
+        if let Some(v) = self.transaction.as_ref() {
+            struct_ser.serialize_field("transaction", v)?;
+        }
+        struct_ser.end()
+    }
+}
+impl<'de> serde::Deserialize<'de> for tournament_votes_response::Vote {
+    #[allow(deprecated)]
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        const FIELDS: &[&str] = &[
+            "incentivized_asset",
+            "incentivizedAsset",
+            "vote_power",
+            "votePower",
+            "reward",
+            "transaction",
+        ];
+
+        #[allow(clippy::enum_variant_names)]
+        enum GeneratedField {
+            IncentivizedAsset,
+            VotePower,
+            Reward,
+            Transaction,
+            __SkipField__,
+        }
+        impl<'de> serde::Deserialize<'de> for GeneratedField {
+            fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                struct GeneratedVisitor;
+
+                impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+                    type Value = GeneratedField;
+
+                    fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                        write!(formatter, "expected one of: {:?}", &FIELDS)
+                    }
+
+                    #[allow(unused_variables)]
+                    fn visit_str<E>(self, value: &str) -> std::result::Result<GeneratedField, E>
+                    where
+                        E: serde::de::Error,
+                    {
+                        match value {
+                            "incentivizedAsset" | "incentivized_asset" => Ok(GeneratedField::IncentivizedAsset),
+                            "votePower" | "vote_power" => Ok(GeneratedField::VotePower),
+                            "reward" => Ok(GeneratedField::Reward),
+                            "transaction" => Ok(GeneratedField::Transaction),
+                            _ => Ok(GeneratedField::__SkipField__),
+                        }
+                    }
+                }
+                deserializer.deserialize_identifier(GeneratedVisitor)
+            }
+        }
+        struct GeneratedVisitor;
+        impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+            type Value = tournament_votes_response::Vote;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                formatter.write_str("struct fusion.view.v1.TournamentVotesResponse.Vote")
+            }
+
+            fn visit_map<V>(self, mut map_: V) -> std::result::Result<tournament_votes_response::Vote, V::Error>
+                where
+                    V: serde::de::MapAccess<'de>,
+            {
+                let mut incentivized_asset__ = None;
+                let mut vote_power__ = None;
+                let mut reward__ = None;
+                let mut transaction__ = None;
+                while let Some(k) = map_.next_key()? {
+                    match k {
+                        GeneratedField::IncentivizedAsset => {
+                            if incentivized_asset__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("incentivizedAsset"));
+                            }
+                            incentivized_asset__ = map_.next_value()?;
+                        }
+                        GeneratedField::VotePower => {
+                            if vote_power__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("votePower"));
+                            }
+                            vote_power__ = map_.next_value()?;
+                        }
+                        GeneratedField::Reward => {
+                            if reward__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("reward"));
+                            }
+                            reward__ = map_.next_value()?;
+                        }
+                        GeneratedField::Transaction => {
+                            if transaction__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("transaction"));
+                            }
+                            transaction__ = map_.next_value()?;
+                        }
+                        GeneratedField::__SkipField__ => {
+                            let _ = map_.next_value::<serde::de::IgnoredAny>()?;
+                        }
+                    }
+                }
+                Ok(tournament_votes_response::Vote {
+                    incentivized_asset: incentivized_asset__,
+                    vote_power: vote_power__,
+                    reward: reward__,
+                    transaction: transaction__,
+                })
+            }
+        }
+        deserializer.deserialize_struct("fusion.view.v1.TournamentVotesResponse.Vote", FIELDS, GeneratedVisitor)
+    }
+}
 impl serde::Serialize for TransactionInfo {
     #[allow(deprecated)]
     fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
@@ -6505,6 +7102,9 @@ impl serde::Serialize for TransactionPlannerRequest {
         if !self.delegator_votes.is_empty() {
             len += 1;
         }
+        if !self.action_liquidity_tournament_vote.is_empty() {
+            len += 1;
+        }
         if self.epoch_index != 0 {
             len += 1;
         }
@@ -6574,6 +7174,9 @@ impl serde::Serialize for TransactionPlannerRequest {
         if !self.delegator_votes.is_empty() {
             struct_ser.serialize_field("delegatorVotes", &self.delegator_votes)?;
         }
+        if !self.action_liquidity_tournament_vote.is_empty() {
+            struct_ser.serialize_field("actionLiquidityTournamentVote", &self.action_liquidity_tournament_vote)?;
+        }
         if self.epoch_index != 0 {
             #[allow(clippy::needless_borrow)]
             #[allow(clippy::needless_borrows_for_generic_args)]
@@ -6633,6 +7236,8 @@ impl<'de> serde::Deserialize<'de> for TransactionPlannerRequest {
             "dutchAuctionWithdrawActions",
             "delegator_votes",
             "delegatorVotes",
+            "action_liquidity_tournament_vote",
+            "actionLiquidityTournamentVote",
             "epoch_index",
             "epochIndex",
             "epoch",
@@ -6663,6 +7268,7 @@ impl<'de> serde::Deserialize<'de> for TransactionPlannerRequest {
             DutchAuctionEndActions,
             DutchAuctionWithdrawActions,
             DelegatorVotes,
+            ActionLiquidityTournamentVote,
             EpochIndex,
             Epoch,
             AutoFee,
@@ -6708,6 +7314,7 @@ impl<'de> serde::Deserialize<'de> for TransactionPlannerRequest {
                             "dutchAuctionEndActions" | "dutch_auction_end_actions" => Ok(GeneratedField::DutchAuctionEndActions),
                             "dutchAuctionWithdrawActions" | "dutch_auction_withdraw_actions" => Ok(GeneratedField::DutchAuctionWithdrawActions),
                             "delegatorVotes" | "delegator_votes" => Ok(GeneratedField::DelegatorVotes),
+                            "actionLiquidityTournamentVote" | "action_liquidity_tournament_vote" => Ok(GeneratedField::ActionLiquidityTournamentVote),
                             "epochIndex" | "epoch_index" => Ok(GeneratedField::EpochIndex),
                             "epoch" => Ok(GeneratedField::Epoch),
                             "autoFee" | "auto_fee" => Ok(GeneratedField::AutoFee),
@@ -6750,6 +7357,7 @@ impl<'de> serde::Deserialize<'de> for TransactionPlannerRequest {
                 let mut dutch_auction_end_actions__ = None;
                 let mut dutch_auction_withdraw_actions__ = None;
                 let mut delegator_votes__ = None;
+                let mut action_liquidity_tournament_vote__ = None;
                 let mut epoch_index__ = None;
                 let mut epoch__ = None;
                 let mut fee_mode__ = None;
@@ -6871,6 +7479,12 @@ impl<'de> serde::Deserialize<'de> for TransactionPlannerRequest {
                             }
                             delegator_votes__ = Some(map_.next_value()?);
                         }
+                        GeneratedField::ActionLiquidityTournamentVote => {
+                            if action_liquidity_tournament_vote__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("actionLiquidityTournamentVote"));
+                            }
+                            action_liquidity_tournament_vote__ = Some(map_.next_value()?);
+                        }
                         GeneratedField::EpochIndex => {
                             if epoch_index__.is_some() {
                                 return Err(serde::de::Error::duplicate_field("epochIndex"));
@@ -6924,6 +7538,7 @@ impl<'de> serde::Deserialize<'de> for TransactionPlannerRequest {
                     dutch_auction_end_actions: dutch_auction_end_actions__.unwrap_or_default(),
                     dutch_auction_withdraw_actions: dutch_auction_withdraw_actions__.unwrap_or_default(),
                     delegator_votes: delegator_votes__.unwrap_or_default(),
+                    action_liquidity_tournament_vote: action_liquidity_tournament_vote__.unwrap_or_default(),
                     epoch_index: epoch_index__.unwrap_or_default(),
                     epoch: epoch__,
                     fee_mode: fee_mode__,
@@ -7239,6 +7854,159 @@ impl<'de> serde::Deserialize<'de> for transaction_planner_request::ActionDutchAu
             }
         }
         deserializer.deserialize_struct("fusion.view.v1.TransactionPlannerRequest.ActionDutchAuctionWithdraw", FIELDS, GeneratedVisitor)
+    }
+}
+impl serde::Serialize for transaction_planner_request::ActionLiquidityTournamentVote {
+    #[allow(deprecated)]
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        use serde::ser::SerializeStruct;
+        let mut len = 0;
+        if self.incentivized.is_some() {
+            len += 1;
+        }
+        if self.rewards_recipient.is_some() {
+            len += 1;
+        }
+        if !self.staked_notes.is_empty() {
+            len += 1;
+        }
+        if self.epoch_index != 0 {
+            len += 1;
+        }
+        let mut struct_ser = serializer.serialize_struct("fusion.view.v1.TransactionPlannerRequest.ActionLiquidityTournamentVote", len)?;
+        if let Some(v) = self.incentivized.as_ref() {
+            struct_ser.serialize_field("incentivized", v)?;
+        }
+        if let Some(v) = self.rewards_recipient.as_ref() {
+            struct_ser.serialize_field("rewardsRecipient", v)?;
+        }
+        if !self.staked_notes.is_empty() {
+            struct_ser.serialize_field("stakedNotes", &self.staked_notes)?;
+        }
+        if self.epoch_index != 0 {
+            #[allow(clippy::needless_borrow)]
+            #[allow(clippy::needless_borrows_for_generic_args)]
+            struct_ser.serialize_field("epochIndex", ToString::to_string(&self.epoch_index).as_str())?;
+        }
+        struct_ser.end()
+    }
+}
+impl<'de> serde::Deserialize<'de> for transaction_planner_request::ActionLiquidityTournamentVote {
+    #[allow(deprecated)]
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        const FIELDS: &[&str] = &[
+            "incentivized",
+            "rewards_recipient",
+            "rewardsRecipient",
+            "staked_notes",
+            "stakedNotes",
+            "epoch_index",
+            "epochIndex",
+        ];
+
+        #[allow(clippy::enum_variant_names)]
+        enum GeneratedField {
+            Incentivized,
+            RewardsRecipient,
+            StakedNotes,
+            EpochIndex,
+            __SkipField__,
+        }
+        impl<'de> serde::Deserialize<'de> for GeneratedField {
+            fn deserialize<D>(deserializer: D) -> std::result::Result<GeneratedField, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                struct GeneratedVisitor;
+
+                impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+                    type Value = GeneratedField;
+
+                    fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                        write!(formatter, "expected one of: {:?}", &FIELDS)
+                    }
+
+                    #[allow(unused_variables)]
+                    fn visit_str<E>(self, value: &str) -> std::result::Result<GeneratedField, E>
+                    where
+                        E: serde::de::Error,
+                    {
+                        match value {
+                            "incentivized" => Ok(GeneratedField::Incentivized),
+                            "rewardsRecipient" | "rewards_recipient" => Ok(GeneratedField::RewardsRecipient),
+                            "stakedNotes" | "staked_notes" => Ok(GeneratedField::StakedNotes),
+                            "epochIndex" | "epoch_index" => Ok(GeneratedField::EpochIndex),
+                            _ => Ok(GeneratedField::__SkipField__),
+                        }
+                    }
+                }
+                deserializer.deserialize_identifier(GeneratedVisitor)
+            }
+        }
+        struct GeneratedVisitor;
+        impl<'de> serde::de::Visitor<'de> for GeneratedVisitor {
+            type Value = transaction_planner_request::ActionLiquidityTournamentVote;
+
+            fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                formatter.write_str("struct fusion.view.v1.TransactionPlannerRequest.ActionLiquidityTournamentVote")
+            }
+
+            fn visit_map<V>(self, mut map_: V) -> std::result::Result<transaction_planner_request::ActionLiquidityTournamentVote, V::Error>
+                where
+                    V: serde::de::MapAccess<'de>,
+            {
+                let mut incentivized__ = None;
+                let mut rewards_recipient__ = None;
+                let mut staked_notes__ = None;
+                let mut epoch_index__ = None;
+                while let Some(k) = map_.next_key()? {
+                    match k {
+                        GeneratedField::Incentivized => {
+                            if incentivized__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("incentivized"));
+                            }
+                            incentivized__ = map_.next_value()?;
+                        }
+                        GeneratedField::RewardsRecipient => {
+                            if rewards_recipient__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("rewardsRecipient"));
+                            }
+                            rewards_recipient__ = map_.next_value()?;
+                        }
+                        GeneratedField::StakedNotes => {
+                            if staked_notes__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("stakedNotes"));
+                            }
+                            staked_notes__ = Some(map_.next_value()?);
+                        }
+                        GeneratedField::EpochIndex => {
+                            if epoch_index__.is_some() {
+                                return Err(serde::de::Error::duplicate_field("epochIndex"));
+                            }
+                            epoch_index__ = 
+                                Some(map_.next_value::<::pbjson::private::NumberDeserialize<_>>()?.0)
+                            ;
+                        }
+                        GeneratedField::__SkipField__ => {
+                            let _ = map_.next_value::<serde::de::IgnoredAny>()?;
+                        }
+                    }
+                }
+                Ok(transaction_planner_request::ActionLiquidityTournamentVote {
+                    incentivized: incentivized__,
+                    rewards_recipient: rewards_recipient__,
+                    staked_notes: staked_notes__.unwrap_or_default(),
+                    epoch_index: epoch_index__.unwrap_or_default(),
+                })
+            }
+        }
+        deserializer.deserialize_struct("fusion.view.v1.TransactionPlannerRequest.ActionLiquidityTournamentVote", FIELDS, GeneratedVisitor)
     }
 }
 impl serde::Serialize for transaction_planner_request::Delegate {

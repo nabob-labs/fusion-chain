@@ -52,17 +52,18 @@ use fusion_proto::{
         AppParametersResponse, AssetMetadataByIdRequest, AssetMetadataByIdResponse,
         BroadcastTransactionResponse, FmdParametersResponse, GasPricesResponse,
         NoteByCommitmentResponse, StatusResponse, SwapByCommitmentResponse,
-        TransactionPlannerResponse, WalletIdRequest, WalletIdResponse, WitnessResponse,
+        TournamentVotesResponse, TransactionPlannerResponse, WalletIdRequest, WalletIdResponse,
+        WitnessResponse,
     },
     DomainType,
 };
-use fusion_stake::rate::RateData;
+use fusion_stake::{rate::RateData, IdentityKey};
 use fusion_tct::{Proof, StateCommitment};
 use fusion_transaction::{
     AuthorizationData, Transaction, TransactionPerspective, TransactionPlan, WitnessData,
 };
 
-use crate::{worker::Worker, Planner, Storage};
+use crate::{worker::Worker, Planner, SpendableNoteRecord, Storage};
 
 /// A [`futures::Stream`] of broadcast transaction responses.
 ///
@@ -87,7 +88,7 @@ pub struct ViewServer {
     error_slot: Arc<Mutex<Option<anyhow::Error>>>,
     // A copy of the SCT used by the worker task.
     state_commitment_tree: Arc<RwLock<fusion_tct::Tree>>,
-    // The Url for the fnsd gRPC endpoint on remote node.
+    // The Url for the pd gRPC endpoint on remote node.
     node: Url,
     /// Used to watch for changes to the sync height.
     sync_height_rx: watch::Receiver<u64>,
@@ -146,7 +147,7 @@ impl ViewServer {
         })
     }
 
-    /// Obtain a Tonic [Channel] to a remote `fnsd` endpoint.
+    /// Obtain a Tonic [Channel] to a remote `pd` endpoint.
     ///
     /// Provided as a convenience method for bootstrapping a connection.
     /// Handles configuring TLS if the URL is HTTPS. Also adds a tracing span
@@ -245,7 +246,7 @@ impl ViewServer {
                 // 2. Optionally wait for the transaction to be detected by the view service.
                 let nullifier = if await_detection {
                     // This needs to be only *spend* nullifiers because the nullifier detection
-                    // is broken for swaps, https://github.com/nabob-labs/fusion-chain/issues/1749
+                    // is broken for swaps。
                     //
                     // in the meantime, inline the definition from `Transaction`
                     transaction
@@ -419,6 +420,9 @@ impl ViewService for ViewServer {
         Pin<Box<dyn futures::Stream<Item = Result<pb::AuctionsResponse, tonic::Status>> + Send>>;
     type LatestSwapsStream =
         Pin<Box<dyn futures::Stream<Item = Result<pb::LatestSwapsResponse, tonic::Status>> + Send>>;
+    type LqtVotingNotesStream = Pin<
+        Box<dyn futures::Stream<Item = Result<pb::LqtVotingNotesResponse, tonic::Status>> + Send>,
+    >;
 
     #[instrument(skip_all, level = "trace")]
     async fn auctions(
@@ -743,7 +747,7 @@ impl ViewService for ViewServer {
                     tonic::Status::invalid_argument(format!("Could not parse pair: {e:#}"))
                 })?;
 
-            planner.position_withdraw(position_id, reserves, trading_pair);
+            planner.position_withdraw(position_id, reserves, trading_pair, 0);
         }
 
         // Insert any ICS20 withdrawals.
@@ -1872,9 +1876,52 @@ impl ViewService for ViewServer {
     ) -> Result<tonic::Response<Self::LatestSwapsStream>, tonic::Status> {
         unimplemented!("latest_swaps currently only implemented on web")
     }
+
+    #[instrument(skip_all, level = "trace")]
+    async fn tournament_votes(
+        &self,
+        _request: tonic::Request<pb::TournamentVotesRequest>,
+    ) -> Result<tonic::Response<TournamentVotesResponse>, tonic::Status> {
+        unimplemented!("tournament_votes currently only implemented on web")
+    }
+
+    #[instrument(skip_all, level = "trace")]
+    async fn lqt_voting_notes(
+        &self,
+        request: tonic::Request<pb::LqtVotingNotesRequest>,
+    ) -> Result<tonic::Response<Self::LqtVotingNotesStream>, tonic::Status> {
+        async fn inner(
+            this: &ViewServer,
+            epoch: u64,
+            filter: Option<AddressIndex>,
+        ) -> anyhow::Result<Vec<(SpendableNoteRecord, IdentityKey)>> {
+            let (_, start_height) = this.storage.get_epoch(epoch).await?;
+            let start_height =
+                start_height.ok_or_else(|| anyhow!("missing height for epoch {epoch}"))?;
+            let notes = this.storage.notes_for_voting(filter, start_height).await?;
+            Ok(notes)
+        }
+
+        let request = request.into_inner();
+        let epoch = request.epoch_index;
+        let filter = request
+            .account_filter
+            .map(|x| AddressIndex::try_from(x))
+            .transpose()
+            .map_err(|_| tonic::Status::invalid_argument("invalid account filter"))?;
+        let notes = inner(self, epoch, filter).await.map_err(|e| {
+            tonic::Status::internal(format!("error fetching voting notes: {:#}", e))
+        })?;
+        let stream = tokio_stream::iter(notes.into_iter().map(|(note, _)| {
+            Result::<_, tonic::Status>::Ok(pb::LqtVotingNotesResponse {
+                note_record: Some(note.into()),
+            })
+        }));
+        Ok(tonic::Response::new(stream.boxed()))
+    }
 }
 
-/// Convert a fnsd node URL to a Tonic `Endpoint`.
+/// Convert a pd node URL to a Tonic `Endpoint`.
 ///
 /// Required in order to configure TLS for HTTPS endpoints.
 async fn get_fnsd_endpoint(node: Url) -> anyhow::Result<Endpoint> {

@@ -22,12 +22,16 @@ use ibc_types::core::{
     client::Height as IbcHeight,
 };
 use ibc_types::lightclients::tendermint::client_state::ClientState as TendermintClientState;
+use lqt_vote::LqtVoteCmd;
 use rand_core::OsRng;
 use regex::Regex;
 
 use liquidity_position::PositionCmd;
 use fusion_asset::{asset, asset::Metadata, Value, STAKING_TOKEN_ASSET_ID};
-use fusion_dex::{lp::position, swap_claim::SwapClaimPlan};
+use fusion_dex::{
+    lp::position::{self, Position, State},
+    swap_claim::SwapClaimPlan,
+};
 use fusion_fee::FeeTier;
 use fusion_governance::{
     proposal::ProposalToml, proposal_state::State as ProposalState, Vote,
@@ -88,6 +92,7 @@ use clap::Parser;
 
 mod auction;
 mod liquidity_position;
+mod lqt_vote;
 mod proposal;
 mod replicate;
 
@@ -317,6 +322,8 @@ pub enum TxCmd {
         /// The transaction to be broadcast
         transaction: PathBuf,
     },
+    #[clap(display_order = 700)]
+    LqtVote(LqtVoteCmd),
 }
 
 /// Vote on a governance proposal.
@@ -374,6 +381,7 @@ impl TxCmd {
             TxCmd::Auction(_) => false,
             TxCmd::Broadcast { .. } => false,
             TxCmd::RegisterForwardingAccount { .. } => false,
+            TxCmd::LqtVote(cmd) => cmd.offline(),
         }
     }
 
@@ -575,8 +583,7 @@ impl TxCmd {
                     .context("can't plan swap claim")?;
 
                 // Submit the `SwapClaim` transaction.
-                // BUG: this doesn't wait for confirmation, see
-                // https://github.com/nabob-labs/fusion-chain/pull/2091/commits/128b24a6303c2f855a708e35f9342987f1dd34ec
+                // BUG: this doesn't wait for confirmation
                 app.build_and_submit_transaction(plan).await?;
             }
             TxCmd::Delegate {
@@ -1433,6 +1440,7 @@ impl TxCmd {
                             *position_id,
                             reserves.try_into().expect("invalid reserves"),
                             pair.try_into().expect("invalid pair"),
+                            0,
                         );
                     }
 
@@ -1461,28 +1469,34 @@ impl TxCmd {
 
                 for position_id in position_ids {
                     // Fetch the information regarding the position from the view service.
-                    let position = client
+                    let response = client
                         .liquidity_position_by_id(LiquidityPositionByIdRequest {
                             position_id: Some(PositionId::from(*position_id)),
                         })
                         .await?
                         .into_inner();
 
-                    let reserves = position
-                        .data
-                        .clone()
-                        .expect("missing position metadata")
-                        .reserves
-                        .expect("missing position reserves");
-                    let pair = position
+                    let position: Position = response
                         .data
                         .expect("missing position")
-                        .phi
-                        .expect("missing position trading function")
-                        .pair
-                        .expect("missing trading function pair");
+                        .try_into()
+                        .expect("invalid position state");
 
-                    planner.position_withdraw(*position_id, reserves.try_into()?, pair.try_into()?);
+                    let reserves = position.reserves;
+                    let pair = position.phi.pair;
+                    let next_seq = match position.state {
+                        State::Withdrawn { sequence } => sequence + 1,
+                        State::Closed => 0,
+                        _ => {
+                            anyhow::bail!("position {} is not in a withdrawable state", position_id)
+                        }
+                    };
+                    planner.position_withdraw(
+                        *position_id,
+                        reserves.try_into()?,
+                        pair.try_into()?,
+                        next_seq,
+                    );
                 }
 
                 let plan = planner
@@ -1610,6 +1624,7 @@ impl TxCmd {
 
                 println!("Noble response: {:?}", r);
             }
+            TxCmd::LqtVote(cmd) => cmd.exec(app, gas_prices).await?,
         }
 
         Ok(())

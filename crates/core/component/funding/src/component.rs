@@ -1,4 +1,5 @@
 pub mod metrics;
+pub mod rpc;
 mod state_key;
 pub mod view;
 use ::metrics::{gauge, histogram};
@@ -9,6 +10,7 @@ use fusion_asset::{Value, STAKING_TOKEN_ASSET_ID};
 use fusion_proto::{DomainType, StateWriteProto};
 use fusion_stake::component::validator_handler::ValidatorDataRead;
 pub use view::{StateReadExt, StateWriteExt};
+pub(crate) mod liquidity_tournament;
 
 use std::sync::Arc;
 
@@ -30,7 +32,7 @@ impl Component for Funding {
     #[instrument(name = "funding", skip(state, app_state))]
     async fn init_chain<S: StateWrite>(mut state: S, app_state: Option<&Self::AppState>) {
         match app_state {
-            None => { /* Checkpoint -- no-op */ }
+            None => { /* no-op */ }
             Some(genesis) => {
                 state.put_funding_params(genesis.funding_params.clone());
             }
@@ -65,6 +67,10 @@ impl Component for Funding {
 
         let state = Arc::get_mut(state).expect("state should be unique");
         let funding_execution_start = std::time::Instant::now();
+
+        if let Err(e) = liquidity_tournament::distribute_rewards(&mut *state).await {
+            tracing::error!("while processing LQT rewards: {}", e);
+        }
 
         // Here, we want to process the funding rewards for the epoch that just ended. To do this,
         // we pull the funding queue that the staking component has prepared for us, as well as the

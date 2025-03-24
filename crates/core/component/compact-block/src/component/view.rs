@@ -41,7 +41,7 @@ pub trait StateReadExt: StateRead {
     /// Note: this method returns the proto type from `fusion_proto`, rather
     /// than deserializing into the domain type, because the primary use is in
     /// serving RPC requests, where the proto type will be re-serialized and
-    /// sent to clients.fusion
+    /// sent to clients.
     async fn compact_block(&self, height: u64) -> Result<Option<CompactBlock>> {
         Ok(self
             .nonverifiable_get_raw(state_key::compact_block(height).as_bytes())

@@ -1006,7 +1006,7 @@ async fn reproduce_arbitrage_loop_testnet_53() -> anyhow::Result<()> {
 
 #[tokio::test]
 /// Confirms the ordering of routable assets returns the assets
-/// with the most liquidity first, as discovered in https://github.com/nabob-labs/fusion-chain/issues/4189
+/// with the most liquidity first, as discovered in https://github.com/fusion-zone/fusion/issues/4189
 /// For the purposes of this test, it is important to remember
 /// that for a trade routing from A -> *, candidate liquidity is
 /// the amount of A purchaseable with the candidate assets, i.e. the amount of

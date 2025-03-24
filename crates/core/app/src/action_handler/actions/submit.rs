@@ -93,6 +93,7 @@ impl AppActionHandler for ProposalSubmit {
                             anyhow::bail!("invalid action in Community Pool spend proposal (not allowed to manipulate proposals from within proposals)")
                         }
                         ValidatorDefinition(_)
+                        | ActionLiquidityTournamentVote(_)
                         | IbcAction(_)
                         | ValidatorVote(_)
                         | PositionOpen(_)
@@ -310,8 +311,8 @@ impl AppActionHandler for ProposalSubmit {
 /// hashes of two arbitrary strings.
 static COMMUNITY_POOL_FULL_VIEWING_KEY: Lazy<FullViewingKey> = Lazy::new(|| {
     // We start with two different personalization strings for the hash function:
-    let ak_personalization = b"Fusion_CP_ak";
-    let nk_personalization = b"Fusion_CP_nk";
+    let ak_personalization = b"Fusioned_CP_ak";
+    let nk_personalization = b"Fusioned_CP_nk";
 
     // We pick two different arbitrary strings to hash:
     let ak_hash_input =
@@ -356,6 +357,7 @@ async fn build_community_pool_transaction(
             effect_hash: Some(effect_hash),
             spend_auths: Default::default(),
             delegator_vote_auths: Default::default(),
+            lqt_vote_auths: Default::default(),
         },
     )
 }

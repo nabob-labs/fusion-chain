@@ -18,7 +18,7 @@ use crate::component::{
     client::StateReadExt as _,
     connection::{StateReadExt as _, StateWriteExt as _},
     connection_counter::SUPPORTED_VERSIONS,
-    ics02_validation::validate_fusion_client_state,
+    ics02_validation::validate_fusion_sdk_client_state,
     MsgHandler,
 };
 
@@ -53,7 +53,7 @@ impl MsgHandler for MsgConnectionOpenTry {
 
         // verify that the client state (which is a Fusion client) is well-formed for a
         // fusion client.
-        fusion_client_state_is_well_formed::<&S, HI>(&mut state, self).await?;
+        fusion_sdk_client_state_is_well_formed::<&S, HI>(&mut state, self).await?;
 
         // TODO(erwan): how to handle this with ibc-rs@0.23.0?
         // if this msg provides a previous_connection_id to resume from, then check that the
@@ -134,7 +134,7 @@ impl MsgHandler for MsgConnectionOpenTry {
         .context("couldn't verify client state")?;
 
         let expected_consensus = state
-            .get_fusion_consensus_state(self.consensus_height_of_b_on_a)
+            .get_fusion_sdk_consensus_state(self.consensus_height_of_b_on_a)
             .await?;
 
         // 3. verify that the counterparty chain stored the correct consensus state of Fusion at
@@ -210,13 +210,13 @@ async fn consensus_height_is_correct<S: StateRead, HI: HostInterface>(
 
     Ok(())
 }
-async fn fusion_client_state_is_well_formed<S: StateRead, HI: HostInterface>(
+async fn fusion_sdk_client_state_is_well_formed<S: StateRead, HI: HostInterface>(
     state: S,
     msg: &MsgConnectionOpenTry,
 ) -> anyhow::Result<()> {
     let height = HI::get_block_height(&state).await?;
     let chain_id = HI::get_chain_id(&state).await?;
-    validate_fusion_client_state(msg.client_state_of_b_on_a.clone(), &chain_id, height)?;
+    validate_fusion_sdk_client_state(msg.client_state_of_b_on_a.clone(), &chain_id, height)?;
 
     Ok(())
 }

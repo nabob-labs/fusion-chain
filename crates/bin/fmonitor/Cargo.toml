@@ -22,7 +22,7 @@ colored = "2.1.0"
 directories = {workspace = true}
 futures = {workspace = true}
 indicatif = {workspace = true}
-fcli = {version = "1.2.0", path = "../fcli", default-features = true}
+fcli = { path = "../fcli", default-features = true}
 fusion-app = {workspace = true}
 fusion-asset = {workspace = true, default-features = false}
 fusion-compact-block = {workspace = true, default-features = false}

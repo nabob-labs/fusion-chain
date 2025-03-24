@@ -6,6 +6,7 @@
 //! in order to be compatible with the network post-chain-upgrade.
 mod mainnet1;
 mod mainnet2;
+mod mainnet3;
 mod reset_halt_bit;
 mod simple;
 mod testnet72;
@@ -60,6 +61,9 @@ pub enum Migration {
     /// Mainnet-2 migration:
     /// - no-op
     Mainnet2,
+    /// Mainnet-3 migration:
+    /// - no-op
+    Mainnet3,
 }
 
 impl Migration {
@@ -112,6 +116,9 @@ impl Migration {
             Migration::Mainnet2 => {
                 mainnet2::migrate(storage, fnsd_home.clone(), genesis_start).await?;
             }
+            Migration::Mainnet3 => {
+                mainnet3::migrate(storage, fnsd_home.clone(), genesis_start).await?;
+            }
             // We keep historical migrations around for now, this will help inform an abstracted
             // design. Feel free to remove it if it's causing you trouble.
             _ => unimplemented!("the specified migration is unimplemented"),
@@ -158,7 +165,7 @@ pub fn archive_directory(
     Ok(())
 }
 
-/// Read the last block timestamp from the fnsd state.
+/// Read the last block timestamp from the pd state.
 pub async fn last_block_timestamp(home: PathBuf) -> anyhow::Result<tendermint::Time> {
     let rocksdb = home.join("rocksdb");
     let storage = Storage::load(rocksdb, SUBSTORE_PREFIXES.to_vec())

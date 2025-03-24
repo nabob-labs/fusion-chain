@@ -4,6 +4,9 @@ use fusion_auction::auction::dutch::actions::{
 use fusion_community_pool::{CommunityPoolDeposit, CommunityPoolOutput, CommunityPoolSpend};
 use fusion_dex::{PositionClose, PositionOpen, PositionWithdraw, Swap, SwapClaim};
 use fusion_fee::Gas;
+use fusion_funding::liquidity_tournament::{
+    ActionLiquidityTournamentVote, LIQUIDITY_TOURNAMENT_VOTE_DENOM_MAX_BYTES,
+};
 use fusion_ibc::IbcRelay;
 use fusion_shielded_pool::{Ics20Withdrawal, Output, Spend};
 use fusion_stake::{
@@ -288,6 +291,35 @@ fn dutch_auction_withdraw_gas_cost() -> Gas {
     }
 }
 
+fn liquidity_tournament_vote_gas_cost() -> Gas {
+    Gas {
+        block_space:
+        // LiquidityTournamentVoteBody body = 1;
+        (
+            // asset.v1.Denom incentivized = 1; (restricted to MAX bytes)
+            LIQUIDITY_TOURNAMENT_VOTE_DENOM_MAX_BYTES as u64
+            // keys.v1.Address rewards_recipient = 2; (the larger of the two exclusive fields)
+            + 223
+            // uint64 start_position = 3;
+            + 8
+            // asset.v1.Value value = 4;
+            + 48
+            // sct.v1.Nullifier nullifier = 5;
+            + 32
+            // crypto.decaf377_rdsa.v1.SpendVerificationKey rk = 6;
+            + 32
+        )
+        // crypto.decaf377_rdsa.v1.SpendAuthSignature auth_sig = 2;
+        + 64
+        // ZKLiquidityTournamentVoteProof proof = 3;
+        + ZKPROOF_SIZE,
+        // Each vote will, pessimistically, create one output for the reward.
+        compact_block_space: NOTEPAYLOAD_SIZE,
+        verification: 1000,
+        execution: 10,
+    }
+}
+
 impl GasCost for Transaction {
     fn gas_cost(&self) -> Gas {
         self.actions().map(GasCost::gas_cost).sum()
@@ -339,6 +371,7 @@ impl GasCost for ActionPlan {
             ActionPlan::CommunityPoolOutput(d) => d.gas_cost(),
             ActionPlan::CommunityPoolDeposit(dd) => dd.gas_cost(),
             ActionPlan::Ics20Withdrawal(w) => w.gas_cost(),
+            ActionPlan::ActionLiquidityTournamentVote(_) => liquidity_tournament_vote_gas_cost(),
         }
     }
 }
@@ -375,6 +408,9 @@ impl GasCost for Action {
             }
             Action::ActionDutchAuctionWithdraw(action_dutch_auction_withdraw) => {
                 action_dutch_auction_withdraw.gas_cost()
+            }
+            Action::ActionLiquidityTournamentVote(action_liquidity_tournament_vote) => {
+                action_liquidity_tournament_vote.gas_cost()
             }
         }
     }
@@ -649,5 +685,11 @@ impl GasCost for ActionDutchAuctionEnd {
 impl GasCost for ActionDutchAuctionWithdraw {
     fn gas_cost(&self) -> Gas {
         dutch_auction_withdraw_gas_cost()
+    }
+}
+
+impl GasCost for ActionLiquidityTournamentVote {
+    fn gas_cost(&self) -> Gas {
+        liquidity_tournament_vote_gas_cost()
     }
 }

@@ -79,7 +79,7 @@ impl AccountConfig {
 /// if tracked FVKs were detected to migrate, via `fcli migrate balance`, to save time
 /// on future syncs.
 pub struct FmonitorConfig {
-    /// The gRPC URL for a Fusion node's `fnsd` endpoint, used for retrieving account activity.
+    /// The gRPC URL for a Fusion node's `pd` endpoint, used for retrieving account activity.
     grpc_url: Url,
     /// The list of Fusion wallets to track.
     accounts: Vec<AccountConfig>,

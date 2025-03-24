@@ -254,7 +254,6 @@ pub trait ValidatorManager: StateWrite {
             /* Identities: no-ops */
             (Tombstoned, Tombstoned) => {
                 tracing::debug!("validator is already tombstoned");
-                // See discussion in https://github.com/nabob-labs/fusion-chain/pull/3761 for context.
                 // The abridged summary is that applying a misbehavior penalty once and immediately
                 // unbonding the validator's delegation pool should be enough to deter misbehavior.
                 // Considering every single misbehavior actions as "counts" that accumulate runs the

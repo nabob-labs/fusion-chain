@@ -45,7 +45,7 @@ pub struct FvsdConfig {
     /// FVK for both view and custody modes
     #[serde_as(as = "DisplayFromStr")]
     pub full_viewing_key: FullViewingKey,
-    /// The URL of the gRPC endpoint used to talk to fnsd.
+    /// The URL of the gRPC endpoint used to talk to pd.
     pub grpc_url: Url,
     /// The address to bind to serve gRPC.
     pub bind_addr: SocketAddr,
@@ -67,7 +67,7 @@ impl FvsdConfig {
 }
 
 pub fn default_home() -> Utf8PathBuf {
-    let path = ProjectDirs::from("chain", "fusion", "fvsd")
+    let path = ProjectDirs::from("nabob", "fusion", "fvsd")
         .expect("Failed to get platform data dir")
         .data_dir()
         .to_path_buf();
@@ -75,7 +75,7 @@ pub fn default_home() -> Utf8PathBuf {
 }
 
 #[derive(Debug, Parser)]
-#[clap(name = "fvsd", about = "The Fusion View Server daemon.", version)]
+#[clap(name = "fvsd", about = "The Fusion view daemon.", version)]
 pub struct Opt {
     /// Command to run.
     #[clap(subcommand)]
@@ -97,7 +97,7 @@ pub enum Command {
         /// If the value '-' is provided, the seed phrase will be read from stdin.
         #[clap(long, display_order = 200)]
         custody: Option<String>,
-        /// Sets the URL of the gRPC endpoint used to talk to fnsd.
+        /// Sets the URL of the gRPC endpoint used to talk to pd.
         #[clap(
             long,
             display_order = 900,

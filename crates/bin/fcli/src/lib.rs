@@ -85,7 +85,7 @@ impl App {
 }
 
 pub fn default_home() -> Utf8PathBuf {
-    let path = ProjectDirs::from("chain", "fusion", "fcli")
+    let path = ProjectDirs::from("nabob", "fusion", "fcli")
         .expect("Failed to get platform data dir")
         .data_dir()
         .to_path_buf();

@@ -58,7 +58,7 @@ once_cell                        = { workspace = true }
 pbjson-types                     = { workspace = true }
 fusion-app                     = { workspace = true, default-features = true }
 fusion-asset                   = { workspace = true, default-features = true }
-fusion-auto-https              = { version = "1.2.0", path = "../../util/auto-https" }
+fusion-auto-https              = { workspace = true }
 fusion-compact-block           = { workspace = true, default-features = true }
 fusion-custody                 = { workspace = true }
 fusion-auction                 = { workspace = true, features = ["parallel"], default-features = true }
@@ -73,7 +73,7 @@ fusion-sct                     = { workspace = true, default-features = true }
 fusion-shielded-pool           = { workspace = true, features = ["parallel"], default-features = true }
 fusion-stake                   = { workspace = true, features = ["parallel"], default-features = true }
 fusion-tct                     = { workspace = true, default-features = true }
-fusion-tendermint-proxy        = { version = "1.2.0", path = "../../util/tendermint-proxy" }
+fusion-tendermint-proxy        = { workspace = true }
 fusion-tower-trace             = { workspace = true }
 fusion-transaction             = { workspace = true, default-features = true }
 pin-project                      = { workspace = true }

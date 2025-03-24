@@ -274,7 +274,7 @@ impl SellOrder {
     }
 }
 
-// TODO: maybe useful in cleaning up fcli rendering?
+// TODO: maybe useful in cleaning up cli rendering?
 // unsure if we can get an exact round trip
 
 impl Position {

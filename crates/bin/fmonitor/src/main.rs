@@ -1,6 +1,6 @@
 //! The `fmonitor` tool tracks the balances of Fusion wallets, as identified
 //! by a [FullViewingKey] (FVK), in order to perform auditing. It accepts a JSON file
-//! of FVKs and a `fnsd` gRPC URL to initialize:
+//! of FVKs and a `pd` gRPC URL to initialize:
 //!
 //!     fmonitor init --grpc-url http://127.0.0.1:8080 --fvks fvks.json
 //!
@@ -101,7 +101,7 @@ async fn main() -> Result<()> {
 ///
 /// Can be overridden on the command-line via `--home`.
 pub fn default_home() -> Utf8PathBuf {
-    let path = ProjectDirs::from("chain", "fusion", "fmonitor")
+    let path = ProjectDirs::from("nabob", "fusion", "fmonitor")
         .expect("Failed to get platform data dir")
         .data_dir()
         .to_path_buf();

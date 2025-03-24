@@ -7,7 +7,7 @@ use {
 };
 
 #[derive(Debug, Parser)]
-#[clap(name = "fnsd", about = "The Fusion Node Server daemon.", version)]
+#[clap(name = "fnsd", about = "The Fusion daemon.", version)]
 pub struct Opt {
     /// Command to run.
     #[clap(subcommand)]
@@ -48,7 +48,7 @@ pub enum RootCommand {
         /// NOTE: This option automatically provisions TLS certificates from
         /// Let's Encrypt and caches them in the `home` directory.  The
         /// production LE CA has rate limits, so be careful using this option
-        /// with `fnsd network unsafe-reset-all`, which will delete the certificates
+        /// with `pd network unsafe-reset-all`, which will delete the certificates
         /// and force re-issuance, possibly hitting the rate limit. See the
         /// `--acme-staging` option.
         #[clap(long, value_name = "DOMAIN", display_order = 200)]
@@ -246,6 +246,6 @@ pub enum NetworkCommand {
         leave_archive: bool,
     },
 
-    /// Reset all `fnsd` network state. This is a destructive action!
+    /// Reset all `pd` network state. This is a destructive action!
     UnsafeResetAll {},
 }
