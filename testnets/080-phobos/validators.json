@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Nabob Labs CI 1",
+    "website": "https://fusion.xyz",
+    "description": "This is a validator run by Nabob Labs, using testnets as a public CI",
+    "funding_streams": [],
+    "sequence_number": 0
+  }
+]
