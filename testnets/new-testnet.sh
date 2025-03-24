@@ -31,7 +31,7 @@ echo "amount,denom,address" > base_allocations.csv
 # Read in base_addresses for team allocations, assign same amount for everyone.
 while read -r a ; do
     cat <<EOM >> base_allocations.csv
-1_000_000__000_000,upenumbra,$a
+1_000_000__000_000,ufusion,$a
 20_000,gm,$a
 20_000,gn,$a
 10_000,pizza,$a
@@ -41,11 +41,10 @@ EOM
 done < base_addresses.txt
 
 # The Galileo bot has multiple addresses since
-# https://github.com/penumbra-zone/galileo/pull/72.
 # We'll assign ample creds to each.
 while read -r a; do
     cat <<EOM >> base_allocations.csv
-5_000_000__000_000,upenumbra,$a
+5_000_000__000_000,ufusion,$a
 50_000,gm,$a
 50_000,gn,$a
 25_000,pizza,$a
@@ -58,7 +57,7 @@ done < galileo_addresses.txt
 # The Osiris bot has very large allocations, so it can MM.
 while read -r a; do
     cat <<EOM >> base_allocations.csv
-10_000_000__000_000,upenumbra,$a
+10_000_000__000_000,ufusion,$a
 10_000_000,gm,$a
 10_000_000,gn,$a
 10_000_000,pizza,$a
@@ -78,22 +77,22 @@ done < <(cut -d' ' -f1 "osiris_addresses.txt")
 #   0        100gm
 #   0        501000test_usd
 #   0        1cube
-#   0        2000penumbra
+#   0        2000fusion
 #   1        1000test_usd
-#   1        1000penumbra
+#   1        1000fusion
 while read -r a; do
     cat <<EOM >> base_allocations.csv
 100,gm,$a
 5001,test_usd,$a
 1,cube,$a
-2_000__000_000,upenumbra,$a
+2_000__000_000,ufusion,$a
 EOM
 done < <(cut -d' ' -f1 "test_address_0.txt")
 
 while read -r a; do
     cat <<EOM >> base_allocations.csv
 1_000,test_usd,$a
-1_000__000_000,upenumbra,$a
+1_000__000_000,ufusion,$a
 EOM
 done < <(cut -d' ' -f1 "test_address_1.txt")
 
@@ -102,7 +101,7 @@ done < <(cut -d' ' -f1 "test_address_1.txt")
 # Useful for e.g. bootstrapping relayers on testnets/devnets.
 while read -r a; do
     cat <<EOM >> base_allocations.csv
-200__000_000,upenumbra,$a
+200__000_000,ufusion,$a
 EOM
 done < <(cut -d' ' -f1 "small_addresses.txt")
 
