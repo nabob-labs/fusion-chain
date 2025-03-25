@@ -109,31 +109,31 @@ mod tests {
     #[test]
     fn test_displaydenom_format_value() {
         // with exponent 6, 1782000 formats to 1.782
-        let fusion_sdk_display_denom = REGISTRY.parse_unit("fusion");
+        let fusion_display_denom = REGISTRY.parse_unit("fusion");
         assert_eq!(
-            fusion_sdk_display_denom.format_value(1782000u64.into()),
+            fusion_display_denom.format_value(1782000u64.into()),
             "1.782"
         );
         assert_eq!(
-            fusion_sdk_display_denom.format_value(6700001u64.into()),
+            fusion_display_denom.format_value(6700001u64.into()),
             "6.700001"
         );
         assert_eq!(
-            fusion_sdk_display_denom.format_value(1u64.into()),
+            fusion_display_denom.format_value(1u64.into()),
             "0.000001"
         );
 
         // with exponent 3, 1782000 formats to 1782
-        let mfusion_sdk_display_denom = REGISTRY.parse_unit("mfusion");
+        let mfusion_display_denom = REGISTRY.parse_unit("mfusion");
         assert_eq!(
-            mfusion_sdk_display_denom.format_value(1782000u64.into()),
+            mfusion_display_denom.format_value(1782000u64.into()),
             "1782"
         );
 
         // with exponent 0, 1782000 formats to 1782000
-        let ufusion_sdk_display_denom = REGISTRY.parse_unit("ufusion");
+        let ufusion_display_denom = REGISTRY.parse_unit("ufusion");
         assert_eq!(
-            ufusion_sdk_display_denom.format_value(1782000u64.into()),
+            ufusion_display_denom.format_value(1782000u64.into()),
             "1782000"
         );
     }
@@ -169,30 +169,30 @@ mod tests {
 
     #[test]
     fn test_displaydenom_parse_value() {
-        let fusion_sdk_display_denom = REGISTRY.parse_unit("fusion");
-        assert!(fusion_sdk_display_denom.parse_value("1.2.3").is_err());
+        let fusion_display_denom = REGISTRY.parse_unit("fusion");
+        assert!(fusion_display_denom.parse_value("1.2.3").is_err());
 
         assert_eq!(
-            fusion_sdk_display_denom.parse_value("1.782").unwrap(),
+            fusion_display_denom.parse_value("1.782").unwrap(),
             1782000u64.into()
         );
         assert_eq!(
-            fusion_sdk_display_denom.parse_value("6.700001").unwrap(),
+            fusion_display_denom.parse_value("6.700001").unwrap(),
             6700001u64.into()
         );
 
-        let mfusion_sdk_display_denom = REGISTRY.parse_unit("mfusion");
+        let mfusion_display_denom = REGISTRY.parse_unit("mfusion");
         assert_eq!(
-            mfusion_sdk_display_denom.parse_value("1782").unwrap(),
+            mfusion_display_denom.parse_value("1782").unwrap(),
             1782000u64.into()
         );
-        assert!(mfusion_sdk_display_denom
+        assert!(mfusion_display_denom
             .parse_value("1782.0001")
             .is_err());
 
-        let ufusion_sdk_display_denom = REGISTRY.parse_unit("ufusion");
+        let ufusion_display_denom = REGISTRY.parse_unit("ufusion");
         assert_eq!(
-            ufusion_sdk_display_denom.parse_value("1782000").unwrap(),
+            ufusion_display_denom.parse_value("1782000").unwrap(),
             1782000u64.into()
         );
     }
@@ -209,14 +209,14 @@ mod tests {
         fn displaydenom_parsing_formatting_roundtrip(
             v: u128
         ) {
-            let fusion_sdk_display_denom = REGISTRY.parse_unit("fusion");
-            let formatted = fusion_sdk_display_denom.format_value(v.into());
-            let parsed = fusion_sdk_display_denom.parse_value(&formatted);
+            let fusion_display_denom = REGISTRY.parse_unit("fusion");
+            let formatted = fusion_display_denom.format_value(v.into());
+            let parsed = fusion_display_denom.parse_value(&formatted);
             assert_eq!(v, u128::from(parsed.unwrap()));
 
-            let mfusion_sdk_display_denom = REGISTRY.parse_unit("mfusion");
-            let formatted = mfusion_sdk_display_denom.format_value(v.into());
-            let parsed = mfusion_sdk_display_denom.parse_value(&formatted);
+            let mfusion_display_denom = REGISTRY.parse_unit("mfusion");
+            let formatted = mfusion_display_denom.format_value(v.into());
+            let parsed = mfusion_display_denom.parse_value(&formatted);
             assert_eq!(v, u128::from(parsed.unwrap()));
         }
     }

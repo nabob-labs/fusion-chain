@@ -324,7 +324,7 @@ async fn main() -> anyhow::Result<()> {
             };
 
             // Join the target network, looking up network info and writing
-            // local configs for pd and cometbft.
+            // local configs for fnsd and cometbft.
             network_join(
                 output_dir.clone(),
                 node,

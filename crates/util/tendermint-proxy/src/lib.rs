@@ -5,7 +5,6 @@
 //!
 //! Most importantly, this crate provides [`TendermintProxy`], which implements Fusion's
 //! [`tendermint_proxy`][proxy-proto] RPC.
-//!
 mod tendermint_proxy;
 
 /// Implements service traits for Tonic gRPC services.

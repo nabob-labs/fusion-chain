@@ -88,7 +88,7 @@ pub struct ViewServer {
     error_slot: Arc<Mutex<Option<anyhow::Error>>>,
     // A copy of the SCT used by the worker task.
     state_commitment_tree: Arc<RwLock<fusion_tct::Tree>>,
-    // The Url for the pd gRPC endpoint on remote node.
+    // The Url for the fnsd gRPC endpoint on remote node.
     node: Url,
     /// Used to watch for changes to the sync height.
     sync_height_rx: watch::Receiver<u64>,
@@ -147,7 +147,7 @@ impl ViewServer {
         })
     }
 
-    /// Obtain a Tonic [Channel] to a remote `pd` endpoint.
+    /// Obtain a Tonic [Channel] to a remote `fnsd` endpoint.
     ///
     /// Provided as a convenience method for bootstrapping a connection.
     /// Handles configuring TLS if the URL is HTTPS. Also adds a tracing span
@@ -246,8 +246,7 @@ impl ViewServer {
                 // 2. Optionally wait for the transaction to be detected by the view service.
                 let nullifier = if await_detection {
                     // This needs to be only *spend* nullifiers because the nullifier detection
-                    // is broken for swaps。
-                    //
+                    // is broken for swaps.                    //
                     // in the meantime, inline the definition from `Transaction`
                     transaction
                         .actions()
@@ -1921,7 +1920,7 @@ impl ViewService for ViewServer {
     }
 }
 
-/// Convert a pd node URL to a Tonic `Endpoint`.
+/// Convert a fnsd node URL to a Tonic `Endpoint`.
 ///
 /// Required in order to configure TLS for HTTPS endpoints.
 async fn get_fnsd_endpoint(node: Url) -> anyhow::Result<Endpoint> {

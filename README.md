@@ -1,2 +1,2 @@
 # fusion-chain
-decentralized exchange
+Crypto exchange

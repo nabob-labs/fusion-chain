@@ -39,7 +39,7 @@ async fn fix_arb_execution_outputs(delta: &mut StateDelta<Snapshot>) -> anyhow::
 }
 
 /// Update base liquidity index values to be proto-encoded. Previously they were stored as big-endian
-/// encoded amounts
+/// encoded amounts.
 ///
 /// This will rewrite all values under the `dex/ab/` prefix to be proto-encoded.
 async fn rewrite_base_liquidity_indices(delta: &mut StateDelta<Snapshot>) -> anyhow::Result<()> {

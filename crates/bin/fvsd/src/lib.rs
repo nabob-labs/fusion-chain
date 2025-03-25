@@ -45,7 +45,7 @@ pub struct FvsdConfig {
     /// FVK for both view and custody modes
     #[serde_as(as = "DisplayFromStr")]
     pub full_viewing_key: FullViewingKey,
-    /// The URL of the gRPC endpoint used to talk to pd.
+    /// The URL of the gRPC endpoint used to talk to fnsd.
     pub grpc_url: Url,
     /// The address to bind to serve gRPC.
     pub bind_addr: SocketAddr,
@@ -97,7 +97,7 @@ pub enum Command {
         /// If the value '-' is provided, the seed phrase will be read from stdin.
         #[clap(long, display_order = 200)]
         custody: Option<String>,
-        /// Sets the URL of the gRPC endpoint used to talk to pd.
+        /// Sets the URL of the gRPC endpoint used to talk to fnsd.
         #[clap(
             long,
             display_order = 900,

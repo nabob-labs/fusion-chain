@@ -2,7 +2,7 @@ use super::*;
 
 /// A [`SimulationService`] that always returns an error.
 ///
-/// This is useful for improving error messages if `pd` is not running with expensive RPCs
+/// This is useful for improving error messages if `fnsd` is not running with expensive RPCs
 /// enabled.
 pub struct SimulationsDisabled;
 
@@ -14,7 +14,7 @@ impl SimulationService for SimulationsDisabled {
     ) -> Result<tonic::Response<SimulateTradeResponse>, Status> {
         Err(Status::unimplemented(
             "SimulationService::simulate_trade() is not enabled on this node.\
-             Run pd with `--enable-expensive-rpc` to use this RPC.",
+             Run fnsd with `--enable-expensive-rpc` to use this RPC.",
         ))
     }
 }

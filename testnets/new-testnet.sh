@@ -21,7 +21,7 @@ if [[ -e "$PREVIOUS_TESTNET_DIRECTORY/validators.json" ]]; then
 else
     echo "Using default CI validator config"
     # We inspect the validators config and pluck the first entry out, for a solo-validator setup.
-    # TODO: update pd to take an `--n-validators` arg so this is dynamic.
+    # TODO: update fnsd to take an `--n-validators` arg so this is dynamic.
     jq '.[0]' "validators-ci.json" | jq -s > "$NEW_TESTNET_DIRECTORY/validators.json"
 fi
 

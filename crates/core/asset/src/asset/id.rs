@@ -158,7 +158,7 @@ impl Id {
         Id(Fq::from_le_bytes_mod_order(
             // XXX choice of hash function?
             blake2b_simd::Params::default()
-                .personal(b"Fusion_AssetID")
+                .personal(b"Fusioned_AssetID")
                 .hash(base_denom.as_bytes())
                 .as_bytes(),
         ))

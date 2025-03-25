@@ -12,7 +12,7 @@ use fcli::{command::*, opt::Opt};
 #[tokio::main]
 async fn main() -> Result<()> {
     // Preserved for posterity and memory
-    if std::env::var("FCLI_DISPLAY_WARNING").is_ok() {
+    if std::env::var("PCLI_DISPLAY_WARNING").is_ok() {
         fcli::warning::display();
     }
 

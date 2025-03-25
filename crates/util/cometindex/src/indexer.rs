@@ -5,7 +5,7 @@ use crate::{
     opt::Options,
     AppView,
 };
-use anyhow::{Context as _, Result};
+use anyhow::{Context, Result};
 use indexing_state::{Height, IndexState, IndexingManager};
 use std::sync::Arc;
 use tokio::{sync::mpsc, task::JoinSet};
@@ -197,9 +197,16 @@ impl Indexer {
                     poll_ms,
                     genesis_json,
                     exit_on_catchup,
+                    integrity_checks_only,
                 },
             indices,
         } = self;
+        crate::integrity::integrity_check(&src_database_url)
+            .await
+            .context("while running integrity checks")?;
+        if integrity_checks_only {
+            return Ok(());
+        }
 
         let genesis: serde_json::Value = serde_json::from_str(
             &std::fs::read_to_string(genesis_json)

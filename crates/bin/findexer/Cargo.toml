@@ -28,6 +28,7 @@ fusion-stake = {workspace = true, default-features = false}
 fusion-app = {workspace = true, default-features = false}
 fusion-auction = {workspace = true, default-features = false}
 fusion-dex = {workspace = true, default-features = false}
+fusion-distributions = {workspace = true, default-features = false}
 fusion-fee = {workspace = true, default-features = false}
 fusion-funding = {workspace = true, default-features = false}
 fusion-keys = {workspace = true, default-features = false}
@@ -39,6 +40,7 @@ fusion-sct = {workspace = true, default-features = false}
 fusion-transaction = {workspace = true, default-features = false}
 prost = {workspace = true}
 tracing = {workspace = true}
+tracing-subscriber = {workspace = true}
 tokio = {workspace = true, features = ["full"]}
 serde_json = {workspace = true}
 serde = { workspace = true, features = ["derive"] }

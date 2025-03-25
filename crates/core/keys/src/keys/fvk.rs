@@ -23,7 +23,7 @@ pub(crate) static IVK_DOMAIN_SEP: Lazy<Fq> =
     Lazy::new(|| Fq::from_le_bytes_mod_order(b"fusion.derive.ivk"));
 
 static ACCOUNT_ID_DOMAIN_SEP: Lazy<Fq> =
-    Lazy::new(|| Fq::from_le_bytes_mod_order(b"Fusion_HashFVK"));
+    Lazy::new(|| Fq::from_le_bytes_mod_order(b"Fusioned_HashFVK"));
 
 /// The root viewing capability for all data related to a given spend authority.
 #[derive(Clone, Serialize, Deserialize, PartialEq, Eq)]

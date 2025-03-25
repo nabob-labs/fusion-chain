@@ -2240,6 +2240,7 @@ dependencies = [
  "fusion-asset",
  "fusion-auction",
  "fusion-dex",
+ "fusion-distributions",
  "fusion-fee",
  "fusion-funding",
  "fusion-governance",
@@ -2262,6 +2263,7 @@ dependencies = [
  "sqlx",
  "tokio",
  "tracing",
+ "tracing-subscriber 0.3.18",
  "url",
 ]
 

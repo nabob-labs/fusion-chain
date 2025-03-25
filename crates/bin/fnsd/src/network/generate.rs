@@ -59,7 +59,7 @@ pub struct NetworkConfig {
 
 impl NetworkConfig {
     /// Create a new testnet configuration, optionally customizing the allocations and validator
-    /// set. By default, will use the prepared Discord allocations and Nabob Labs CI validator
+    /// set. By default, will use the prepared Discord allocations and Fusion Labs CI validator
     /// configs.
     #[allow(clippy::too_many_arguments)]
     pub fn generate(
@@ -126,7 +126,7 @@ impl NetworkConfig {
     }
 
     /// Prepare set of initial validators present at genesis. Optionally reads config values from a
-    /// JSON file, otherwise falls back to the Nabob Labs CI validator configs used for
+    /// JSON file, otherwise falls back to the Fusion Labs CI validator configs used for
     /// testnets.
     fn collect_validators(
         validators_input_file: Option<PathBuf>,

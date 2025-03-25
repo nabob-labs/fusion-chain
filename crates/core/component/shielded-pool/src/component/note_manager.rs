@@ -45,7 +45,7 @@ pub trait NoteManager: StateWrite {
             .into();
 
         let rseed_bytes: [u8; 32] = blake2b_simd::Params::default()
-            .personal(b"FusionMint")
+            .personal(b"FusionedMint")
             .to_state()
             .update(&position.to_le_bytes())
             .finalize()

@@ -16,7 +16,7 @@ use fusion_keys::FullViewingKey;
 #[serde_as]
 #[derive(Serialize, Deserialize, Clone, Debug, Eq, PartialEq)]
 pub struct FcliConfig {
-    /// The URL of the gRPC endpoint used to talk to pd.
+    /// The URL of the gRPC endpoint used to talk to fnsd.
     pub grpc_url: Url,
     /// If set, use a remote view service instead of local synchronization.
     pub view_url: Option<Url>,

@@ -583,7 +583,7 @@ impl TxCmd {
                     .context("can't plan swap claim")?;
 
                 // Submit the `SwapClaim` transaction.
-                // BUG: this doesn't wait for confirmation
+                // BUG: this doesn't wait for confirmation.
                 app.build_and_submit_transaction(plan).await?;
             }
             TxCmd::Delegate {

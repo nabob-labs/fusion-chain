@@ -165,7 +165,7 @@ pub fn archive_directory(
     Ok(())
 }
 
-/// Read the last block timestamp from the pd state.
+/// Read the last block timestamp from the fnsd state.
 pub async fn last_block_timestamp(home: PathBuf) -> anyhow::Result<tendermint::Time> {
     let rocksdb = home.join("rocksdb");
     let storage = Storage::load(rocksdb, SUBSTORE_PREFIXES.to_vec())

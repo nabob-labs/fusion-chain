@@ -1,6 +1,8 @@
 mod contextualized;
+pub(crate) mod database;
 pub mod index;
 pub mod indexer;
+mod integrity;
 pub mod opt;
 
 pub use contextualized::ContextualizedEvent;

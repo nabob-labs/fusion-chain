@@ -1,35 +1,12 @@
 use anyhow::anyhow;
 use futures::{Stream, StreamExt, TryStreamExt};
 use prost::Message as _;
-use sqlx::{postgres::PgPoolOptions, PgPool, Postgres, Transaction};
+use sqlx::{PgPool, Postgres, Transaction};
 use std::collections::HashMap;
 use tendermint::abci::{self, Event};
 
+use crate::database::{read_only_db, read_write_db};
 use crate::index::{BlockEvents, EventBatch, Version};
-
-/// Create a Database, with, for sanity, some read only settings.
-///
-/// These will be overrideable by a consumer who knows what they're doing,
-/// but prevents basic mistakes.
-/// c.f. https://github.com/launchbadge/sqlx/issues/481#issuecomment-727011811
-async fn read_only_db(url: &str) -> anyhow::Result<PgPool> {
-    PgPoolOptions::new()
-        .after_connect(|conn, _| {
-            Box::pin(async move {
-                sqlx::query("SET SESSION CHARACTERISTICS AS TRANSACTION READ ONLY;")
-                    .execute(conn)
-                    .await?;
-                Ok(())
-            })
-        })
-        .connect(url)
-        .await
-        .map_err(Into::into)
-}
-
-async fn read_write_db(url: &str) -> anyhow::Result<PgPool> {
-    PgPoolOptions::new().connect(url).await.map_err(Into::into)
-}
 
 #[derive(Default, Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, sqlx::Type)]
 #[sqlx(transparent)]
@@ -169,14 +146,12 @@ impl IndexingManager {
         sqlx::query_as::<_, (i64, String, Vec<u8>)>(
             r#"
 SELECT height, tx_hash, tx_result
-FROM tx_results
-LEFT JOIN LATERAL (
-    SELECT height FROM blocks WHERE blocks.rowid = tx_results.block_id LIMIT 1
-) ON TRUE
+FROM blocks
+JOIN tx_results ON blocks.rowid = tx_results.block_id
 WHERE
-    block_id >= (SELECT rowid FROM blocks where height = $1)
+    height >= $1
 AND
-    block_id <= (SELECT rowid FROM blocks where height = $2)
+    height <= $2
 "#,
         )
         .bind(first)
@@ -203,43 +178,31 @@ AND
             //   attach block
             //   attach transaction hash?
             r#"
-SELECT
-    events.rowid,
-    events.type,
-    events.height,
-    tx_results.tx_hash,
-    events.attrs
-FROM (
-    SELECT 
-        (SELECT height FROM blocks WHERE blocks.rowid = block_id) as height,
-        rowid, 
-        type, 
-        block_id,
-        tx_id,
-        jsonb_object_agg(attributes.key, attributes.value) AS attrs
-    FROM 
-        events 
-    LEFT JOIN
-        attributes ON rowid = attributes.event_id
-    WHERE
-        block_id >= (SELECT rowid FROM blocks where height = $1)
-    AND
-        block_id <= (SELECT rowid FROM blocks where height = $2)
-    GROUP BY 
-        rowid, 
-        type,
-        block_id, 
-        tx_id
-    ORDER BY
-        rowid ASC
-) events
-LEFT JOIN LATERAL (
-    SELECT * FROM tx_results WHERE tx_results.rowid = events.tx_id LIMIT 1
-) tx_results
-ON TRUE
-ORDER BY
-    events.rowid ASC
-        "#,
+WITH blocks AS (
+  SELECT * FROM blocks WHERE height >= $1 AND height <= $2
+),
+filtered_events AS (
+  SELECT e.block_id, e.rowid, e.type, e.tx_id, b.height
+  FROM events e
+  JOIN blocks b ON e.block_id = b.rowid
+),
+events_with_attrs AS (
+  SELECT
+      f.block_id,
+      f.rowid,
+      f.type,
+      f.tx_id,
+      f.height,
+      jsonb_object_agg(a.key, a.value) AS attrs
+  FROM filtered_events f
+  LEFT JOIN attributes a ON f.rowid = a.event_id
+  GROUP BY f.block_id, f.rowid, f.type, f.tx_id, f.height
+)
+SELECT e.rowid, e.type, e.height, tx.tx_hash, e.attrs
+FROM events_with_attrs e
+LEFT JOIN tx_results tx ON tx.rowid = e.tx_id
+ORDER BY e.height ASC, e.rowid ASC;
+"#,
         )
         .bind(first)
         .bind(last)

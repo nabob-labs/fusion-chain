@@ -36,6 +36,10 @@ pub struct Options {
     /// it has indexed all events in the src database. Useful for batch jobs.
     #[clap(long)]
     pub exit_on_catchup: bool,
+
+    /// If set, don't index, running only integrity checks against the database.
+    #[clap(long)]
+    pub integrity_checks_only: bool,
 }
 
 /// Parses a string containing a [`Duration`], represented as a number of milliseconds.
